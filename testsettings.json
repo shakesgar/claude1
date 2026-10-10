@@ -1,9 +1,9 @@
 {
-  "headless": false,
+  "headless": true,
   "slowMo": 0,
   "pageZoom": 100,
-  "maximized": true,
-  "browser": "chrome",
+  "maximized": false,
+  "browser": "all",
   "baseURL": "http://localhost:3000",
   "allowRemoteReset": false
 }
