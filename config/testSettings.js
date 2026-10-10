@@ -3,13 +3,17 @@ const path = require('path')
 
 const DEFAULT_PATH = path.join(__dirname, '..', 'testsettings.json')
 
+// 'all' means the three bundled engines; chrome and msedge are the browsers installed on the machine
+const BROWSERS = ['chromium', 'firefox', 'webkit', 'chrome', 'msedge', 'all']
+
 // One entry per setting: its default, a check for valid values, and how to describe them in an error.
 // To add a setting, add a line here, use it in playwright.config.js and describe it in TESTING.md.
 const SETTINGS = {
   headless: { default: true, isValid: (value) => typeof value === 'boolean', expects: 'a boolean' },
   slowMo: { default: 0, isValid: (value) => Number.isInteger(value) && value >= 0, expects: 'a whole number of 0 or more' },
   pageZoom: { default: 100, isValid: (value) => Number.isInteger(value) && value >= 1 && value <= 100, expects: 'a whole number from 1 to 100' },
-  maximized: { default: false, isValid: (value) => typeof value === 'boolean', expects: 'a boolean' }
+  maximized: { default: false, isValid: (value) => typeof value === 'boolean', expects: 'a boolean' },
+  browser: { default: 'all', isValid: (value) => BROWSERS.includes(value), expects: `one of ${BROWSERS.join(', ')}` }
 }
 
 const parseWholeNumber = (text) => (/^\d+$/.test(text.trim()) ? Number(text) : NaN)
@@ -20,7 +24,8 @@ const parseBoolean = (text) => ({ true: true, false: false }[text.trim()] ?? tex
 const ENV_OVERRIDES = {
   slowMo: { variable: 'SLOWMO', parse: parseWholeNumber },
   pageZoom: { variable: 'PAGE_ZOOM', parse: parseWholeNumber },
-  maximized: { variable: 'MAXIMIZED', parse: parseBoolean }
+  maximized: { variable: 'MAXIMIZED', parse: parseBoolean },
+  browser: { variable: 'BROWSER', parse: (text) => text.trim() }
 }
 
 const DEFAULTS = Object.fromEntries(Object.entries(SETTINGS).map(([name, setting]) => [name, setting.default]))

@@ -47,7 +47,8 @@ $env:BASE_URL='http://localhost:4000'; npx playwright test  # PowerShell
   "headless": true,
   "slowMo": 0,
   "pageZoom": 100,
-  "maximized": false
+  "maximized": false,
+  "browser": "all"
 }
 ```
 
@@ -57,10 +58,11 @@ $env:BASE_URL='http://localhost:4000'; npx playwright test  # PowerShell
 | `slowMo`   | whole number, 0 or more   | `0`     | Pauses this many milliseconds after each browser action (click, fill, navigation). `0` is off. |
 | `pageZoom` | whole number, 1 to 100    | `100`   | Shrinks every page to this percentage with CSS zoom. `100` is normal size.                    |
 | `maximized` | boolean                  | `false` | `true` opens the Chromium window maximised, with the page filling it. Headed runs only.       |
+| `browser`  | one of `chromium`, `firefox`, `webkit`, `chrome`, `msedge`, `all` | `all` | Which browser the UI tests run in. `all` runs Chromium, Firefox and WebKit. |
 
 The file is committed, and CI runs with the committed values. Keep the defaults shown above there; change them locally to watch or debug a run, and do not commit those changes.
 
-Three settings can also be set for a single run with an environment variable, which takes priority over the file: `SLOWMO`, `PAGE_ZOOM` and `MAXIMIZED` (`true` or `false`). An empty variable is ignored. Playwright has no command-line flag for any of the three, so their order of priority is environment variable, then `testsettings.json`, then the default in `config/testSettings.js`.
+Four settings can also be set for a single run with an environment variable, which takes priority over the file: `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED` (`true` or `false`) and `BROWSER`. An empty variable is ignored. Playwright has no command-line flag for the first three, so their order of priority is environment variable, then `testsettings.json`, then the default in `config/testSettings.js`. `browser` also has a command-line flag, described below.
 
 ### headless
 
@@ -127,20 +129,62 @@ MAXIMIZED=true npx playwright test smoke --project=chromium          # macOS/Lin
 $env:MAXIMIZED='true'; npx playwright test smoke --project=chromium  # PowerShell
 ```
 
+### browser
+
+`browser` chooses which browser projects a plain `npx playwright test` (or `npm test`) runs.
+
+| Value      | Runs in                                                                 |
+|------------|-------------------------------------------------------------------------|
+| `all`      | Chromium, Firefox and WebKit, the three engines Playwright downloads    |
+| `chromium` | Playwright's Chromium                                                   |
+| `firefox`  | Playwright's Firefox                                                    |
+| `webkit`   | Playwright's WebKit, the engine behind Safari                           |
+| `chrome`   | Google Chrome as installed on this machine                              |
+| `msedge`   | Microsoft Edge as installed on this machine                             |
+
+`all` does not include `chrome` or `msedge`.
+
+`chromium`, `chrome` and `msedge` share one engine but are different programs. `chromium` is the open-source build that `npx playwright install` downloads; its version is fixed by the Playwright version, so it is the same on every machine and in CI. `chrome` and `msedge` are the branded browsers your users have, at whatever version is installed here, so results can change when the browser updates itself. They use the same viewport and settings as the `chromium` project.
+
+Installing browsers:
+
+- `chromium`, `firefox` and `webkit` need `npx playwright install` once after `npm install`.
+- `chrome` and `msedge` must already be installed on the machine. If one is missing, every test fails at launch with Playwright's message, for example `Chromium distribution 'chrome' is not found at C:\...\chrome.exe`, followed by `Run "npx playwright install chrome"`. That command installs it; so does a normal install of the browser.
+
+The API tests use no browser, so the `api` project runs whichever browser is selected.
+
+The order of priority is:
+
+1. **The `--project` command-line flag.** `npx playwright test --project=firefox` runs Firefox whatever the variable and the file say. All five browser projects and `api` can be named, and the flag can be repeated.
+2. **The `BROWSER` environment variable.**
+3. **`testsettings.json`.**
+4. **The default**, `all`, in `config/testSettings.js`.
+
+```
+BROWSER=msedge npx playwright test smoke          # macOS/Linux
+$env:BROWSER='msedge'; npx playwright test smoke  # PowerShell
+```
+
+Some Linux, macOS and WSL setups already set `BROWSER` to the program that opens links. If yours holds something other than the six values above, the run stops with an error naming the variable; unset it for the test run (`BROWSER= npx playwright test`).
+
+The other settings work with every choice. `maximized` applies to `chromium`, `chrome` and `msedge`, and prints its warning for `firefox` and `webkit`.
+
+Keep `"browser": "all"` in the committed file: CI runs with it, so committing a single browser would cut what CI covers.
+
 ### How the settings are checked
 
 - If the file is missing, the defaults are used and one line says so.
 - If the file is not valid JSON, is not a JSON object, contains a setting that does not exist (such as a misspelt `"headles"`), or has an invalid value (such as `"slowMo": -1` or `"slowMo": "1000"`), the run stops with an error that names the file, the setting and the value.
-- If `SLOWMO`, `PAGE_ZOOM` or `MAXIMIZED` holds an invalid value, the run stops with an error that names the environment variable.
+- If `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED` or `BROWSER` holds an invalid value, the run stops with an error that names the environment variable.
 
-The API tests use no browser and ignore all four settings.
+The API tests use no browser and ignore all five settings.
 
 To add a setting, add one line to the `SETTINGS` table in `config/testSettings.js` (and to `ENV_OVERRIDES` if it should have an environment variable), use it in `playwright.config.js` or `tests/fixtures/index.js`, and add a row to the table above.
 
 ## Structure
 
 ```
-testsettings.json           run settings: headless, slowMo, pageZoom, maximized (see above)
+testsettings.json           run settings: headless, slowMo, pageZoom, maximized, browser (see above)
 config/testSettings.js      loads and validates testsettings.json
 playwright.config.js        projects, web server, retries, reporters
 tests/
@@ -174,7 +218,11 @@ tests/
 | `chromium` | every spec outside `specs/api/`        |
 | `firefox`  | the same specs                         |
 | `webkit`   | the same specs                         |
+| `chrome`   | the same specs, in installed Google Chrome; only when selected |
+| `msedge`   | the same specs, in installed Microsoft Edge; only when selected |
 | `api`      | `specs/api/*.spec.js`, once, no browser |
+
+Which browser projects run is set by `browser` in `testsettings.json` (see [browser](#browser)); by default it is the first three.
 
 ### Why tests run one at a time
 

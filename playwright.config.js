@@ -14,15 +14,35 @@ if (settings.maximized && settings.headless && !isWorker) {
   console.log('testsettings: "maximized" has no effect when "headless" is true, running at the normal size')
 }
 
-function chromiumUse() {
-  if (!maximize) return { ...devices['Desktop Chrome'] }
+// Options for a Chromium-based project. A channel selects a browser installed on the machine
+// (Google Chrome or Microsoft Edge) instead of the Chromium that Playwright downloads.
+function chromiumUse(deviceName, channel) {
+  const base = { ...devices[deviceName], ...(channel ? { channel } : {}) }
+  if (!maximize) return base
   // viewport: null makes the page follow the real window size, and cannot be combined with deviceScaleFactor
-  const { deviceScaleFactor, ...device } = devices['Desktop Chrome']
+  const { deviceScaleFactor, ...device } = base
   return {
     ...device,
     viewport: null,
     launchOptions: { ...launchOptions, args: [...(launchOptions.args || []), '--start-maximized'] }
   }
+}
+
+const BROWSER_PROJECTS = {
+  chromium: chromiumUse('Desktop Chrome'),
+  firefox: { ...devices['Desktop Firefox'] },
+  webkit: { ...devices['Desktop Safari'] },
+  chrome: chromiumUse('Desktop Chrome', 'chrome'),
+  msedge: chromiumUse('Desktop Edge', 'msedge')
+}
+
+// The "browser" setting picks which browser projects exist, so a plain `npx playwright test` runs only those.
+// With --project on the command line every project is defined and the flag chooses, so the flag always wins.
+// Workers get every project too: they only run what the main process hands them.
+const hasProjectFlag = process.argv.some((arg) => arg === '--project' || arg.startsWith('--project='))
+function selectedBrowsers() {
+  if (isWorker || hasProjectFlag) return Object.keys(BROWSER_PROJECTS)
+  return settings.browser === 'all' ? ['chromium', 'firefox', 'webkit'] : [settings.browser]
 }
 
 // Set BASE_URL to test an app that is already running (it must be in test mode).
@@ -58,9 +78,8 @@ module.exports = defineConfig({
   },
 
   projects: [
-    { name: 'chromium', use: chromiumUse(), testIgnore: API_SPECS },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'] }, testIgnore: API_SPECS },
-    { name: 'webkit', use: { ...devices['Desktop Safari'] }, testIgnore: API_SPECS },
+    ...selectedBrowsers().map((name) => ({ name, use: BROWSER_PROJECTS[name], testIgnore: API_SPECS })),
+    // No browser involved, so it runs whichever browser is selected
     { name: 'api', testMatch: API_SPECS }
   ],
 

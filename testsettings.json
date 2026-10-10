@@ -2,5 +2,6 @@
   "headless": true,
   "slowMo": 0,
   "pageZoom": 100,
-  "maximized": false
+  "maximized": false,
+  "browser": "all"
 }
