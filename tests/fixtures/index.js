@@ -8,8 +8,34 @@ const { CandidateProfilePage } = require('../pages/candidate-profile-page')
 const { JobsPage } = require('../pages/jobs-page')
 const { PipelinePage } = require('../pages/pipeline-page')
 const { NavBar } = require('../components/nav-bar')
+const { loadTestSettings } = require('../../config/testSettings')
+
+const settings = loadTestSettings()
 
 const test = base.extend({
+  // Applies the pageZoom setting to every page and popup, on every navigation.
+  // Nothing is injected at 100, so default runs are untouched.
+  context: async ({ context }, use) => {
+    if (settings.pageZoom !== 100) {
+      await context.addInitScript((zoom) => {
+        const apply = () => {
+          if (document.documentElement) document.documentElement.style.zoom = String(zoom)
+        }
+        apply()
+        document.addEventListener('DOMContentLoaded', apply)
+      }, settings.pageZoom / 100)
+    }
+    await use(context)
+  },
+
+  // Says once per worker when the maximized setting cannot be applied to this browser
+  maximizedSupport: [async ({ browserName }, use) => {
+    if (settings.maximized && !settings.headless && browserName !== 'chromium') {
+      console.warn(`testsettings: "maximized" is only supported in Chromium, ${browserName} opens at its normal size`)
+    }
+    await use()
+  }, { scope: 'worker', auto: true }],
+
   // Who the test is signed in as: 'recruiter' (default), 'admin' or 'anonymous'.
   // Change it for a file or describe block with test.use({ role: 'admin' }).
   role: ['recruiter', { option: true }],

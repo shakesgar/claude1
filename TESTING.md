@@ -45,7 +45,9 @@ $env:BASE_URL='http://localhost:4000'; npx playwright test  # PowerShell
 ```json
 {
   "headless": true,
-  "slowMo": 0
+  "slowMo": 0,
+  "pageZoom": 100,
+  "maximized": false
 }
 ```
 
@@ -53,8 +55,12 @@ $env:BASE_URL='http://localhost:4000'; npx playwright test  # PowerShell
 |------------|---------------------------|---------|----------------------------------------------------------------------------------------------|
 | `headless` | boolean                   | `true`  | `true` runs browsers with no visible window. `false` opens a window so you can watch the tests. |
 | `slowMo`   | whole number, 0 or more   | `0`     | Pauses this many milliseconds after each browser action (click, fill, navigation). `0` is off. |
+| `pageZoom` | whole number, 1 to 100    | `100`   | Shrinks every page to this percentage with CSS zoom. `100` is normal size.                    |
+| `maximized` | boolean                  | `false` | `true` opens the Chromium window maximised, with the page filling it. Headed runs only.       |
 
-The file is listed in `.gitignore`, so it is your own local copy and your changes to it are not pushed. Create it if you do not have one; without it the defaults above apply, which is what CI uses.
+The file is committed, and CI runs with the committed values. Keep the defaults shown above there; change them locally to watch or debug a run, and do not commit those changes.
+
+Three settings can also be set for a single run with an environment variable, which takes priority over the file: `SLOWMO`, `PAGE_ZOOM` and `MAXIMIZED` (`true` or `false`). An empty variable is ignored. Playwright has no command-line flag for any of the three, so their order of priority is environment variable, then `testsettings.json`, then the default in `config/testSettings.js`.
 
 ### headless
 
@@ -66,7 +72,7 @@ When the same thing is set in more than one place, the order of priority is:
 
 Playwright has no `--headless` flag, so when the file says `false` the only way back to headless is to edit the file.
 
-The GitHub Actions runner has no display, so a headed run fails there.
+The GitHub Actions runner has no display, so a headed run fails there. That is why the committed file must say `true`.
 
 ### slowMo
 
@@ -89,20 +95,52 @@ The order of priority is:
 
 Playwright has no command-line flag for this.
 
+### pageZoom
+
+`pageZoom` makes every page smaller, so more of it fits in the window: `50` draws the page at half size. It works in Chromium, Firefox and WebKit, in headed and headless runs.
+
+Playwright has no page zoom of its own. The shared fixtures in `tests/fixtures/index.js` add a script to every browser context that sets CSS `zoom` on the `<html>` element, so it applies to every page, popup and navigation without any change to tests or page objects. At `100` nothing is injected and runs behave exactly as they would without the setting.
+
+Limits:
+
+- CSS zoom is not the same as the browser's own zoom (Ctrl and minus). The viewport and media queries do not change, so the layout does not reflow as it would for a user who zooms out; the page is simply drawn smaller.
+- Tests that check sizes or positions in pixels would see scaled values.
+- It only applies to pages created through the fixtures, which is every test in this framework.
+
+```
+PAGE_ZOOM=50 npx playwright test smoke --project=chromium          # macOS/Linux
+$env:PAGE_ZOOM='50'; npx playwright test smoke --project=chromium  # PowerShell
+```
+
+### maximized
+
+With `"maximized": true` and `"headless": false`, Chromium starts with `--start-maximized` and the viewport is set to `null`, so the page is as large as the window instead of the usual 1280×720. This replaces the viewport from the `Desktop Chrome` device descriptor.
+
+Limits:
+
+- **Chromium only.** Firefox and WebKit have no equivalent, so they open at their normal size and print one warning per worker.
+- **Headed only.** When `headless` is `true` the setting does nothing and one notice says so. "Headed" here means `"headless": false` in the file: running with `--headed` while the file says `true` shows the browser but does not maximise it.
+- The page size then depends on your screen, so layout can differ from a normal run. Use it for watching and demos, not for results you compare between machines.
+
+```
+MAXIMIZED=true npx playwright test smoke --project=chromium          # macOS/Linux
+$env:MAXIMIZED='true'; npx playwright test smoke --project=chromium  # PowerShell
+```
+
 ### How the settings are checked
 
 - If the file is missing, the defaults are used and one line says so.
 - If the file is not valid JSON, is not a JSON object, contains a setting that does not exist (such as a misspelt `"headles"`), or has an invalid value (such as `"slowMo": -1` or `"slowMo": "1000"`), the run stops with an error that names the file, the setting and the value.
-- If `SLOWMO` is not a whole number of 0 or more, the run stops with an error that names the environment variable.
+- If `SLOWMO`, `PAGE_ZOOM` or `MAXIMIZED` holds an invalid value, the run stops with an error that names the environment variable.
 
-The API tests use no browser and ignore both settings.
+The API tests use no browser and ignore all four settings.
 
-To add a setting, add one line to the `SETTINGS` table in `config/testSettings.js`, use `settings.<name>` in `playwright.config.js`, and add a row to the table above.
+To add a setting, add one line to the `SETTINGS` table in `config/testSettings.js` (and to `ENV_OVERRIDES` if it should have an environment variable), use it in `playwright.config.js` or `tests/fixtures/index.js`, and add a row to the table above.
 
 ## Structure
 
 ```
-testsettings.json           local run settings: headless, slowMo (see above; not committed)
+testsettings.json           run settings: headless, slowMo, pageZoom, maximized (see above)
 config/testSettings.js      loads and validates testsettings.json
 playwright.config.js        projects, web server, retries, reporters
 tests/

@@ -7,12 +7,20 @@ const DEFAULT_PATH = path.join(__dirname, '..', 'testsettings.json')
 // To add a setting, add a line here, use it in playwright.config.js and describe it in TESTING.md.
 const SETTINGS = {
   headless: { default: true, isValid: (value) => typeof value === 'boolean', expects: 'a boolean' },
-  slowMo: { default: 0, isValid: (value) => Number.isInteger(value) && value >= 0, expects: 'a whole number of 0 or more' }
+  slowMo: { default: 0, isValid: (value) => Number.isInteger(value) && value >= 0, expects: 'a whole number of 0 or more' },
+  pageZoom: { default: 100, isValid: (value) => Number.isInteger(value) && value >= 1 && value <= 100, expects: 'a whole number from 1 to 100' },
+  maximized: { default: false, isValid: (value) => typeof value === 'boolean', expects: 'a boolean' }
 }
+
+const parseWholeNumber = (text) => (/^\d+$/.test(text.trim()) ? Number(text) : NaN)
+// Anything other than true or false is passed through so that validation rejects it
+const parseBoolean = (text) => ({ true: true, false: false }[text.trim()] ?? text)
 
 // Environment variables that override a setting for a single run
 const ENV_OVERRIDES = {
-  slowMo: { variable: 'SLOWMO', parse: (text) => (/^\d+$/.test(text.trim()) ? Number(text) : NaN) }
+  slowMo: { variable: 'SLOWMO', parse: parseWholeNumber },
+  pageZoom: { variable: 'PAGE_ZOOM', parse: parseWholeNumber },
+  maximized: { variable: 'MAXIMIZED', parse: parseBoolean }
 }
 
 const DEFAULTS = Object.fromEntries(Object.entries(SETTINGS).map(([name, setting]) => [name, setting.default]))
@@ -75,4 +83,4 @@ function readSettingsFile(filePath) {
   return { ...DEFAULTS, ...values }
 }
 
-module.exports = { loadTestSettings, DEFAULTS }
+module.exports = { loadTestSettings, DEFAULTS, isWorker }

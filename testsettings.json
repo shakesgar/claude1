@@ -1,4 +1,6 @@
 {
-  "headless": true ,
-  "slowMo": 0
+  "headless": true,
+  "slowMo": 0,
+  "pageZoom": 100,
+  "maximized": false
 }

@@ -1,10 +1,29 @@
 const path = require('path')
 const { defineConfig, devices } = require('@playwright/test')
-const { loadTestSettings } = require('./config/testSettings')
+const { loadTestSettings, isWorker } = require('./config/testSettings')
 
 // Run settings a person can edit without touching this file (see TESTING.md).
-// Command-line flags such as --headed and the SLOWMO environment variable take priority over them.
+// Command-line flags such as --headed and environment variables such as SLOWMO take priority over them.
 const settings = loadTestSettings(path.join(__dirname, 'testsettings.json'))
+
+const launchOptions = { slowMo: settings.slowMo }
+
+// A maximised window needs a visible browser, and only Chromium supports it
+const maximize = settings.maximized && !settings.headless
+if (settings.maximized && settings.headless && !isWorker) {
+  console.log('testsettings: "maximized" has no effect when "headless" is true, running at the normal size')
+}
+
+function chromiumUse() {
+  if (!maximize) return { ...devices['Desktop Chrome'] }
+  // viewport: null makes the page follow the real window size, and cannot be combined with deviceScaleFactor
+  const { deviceScaleFactor, ...device } = devices['Desktop Chrome']
+  return {
+    ...device,
+    viewport: null,
+    launchOptions: { ...launchOptions, args: [...(launchOptions.args || []), '--start-maximized'] }
+  }
+}
 
 // Set BASE_URL to test an app that is already running (it must be in test mode).
 // Without it, Playwright starts the app itself on port 3000.
@@ -33,13 +52,13 @@ module.exports = defineConfig({
   use: {
     baseURL,
     headless: settings.headless,
-    launchOptions: { slowMo: settings.slowMo },
+    launchOptions,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure'
   },
 
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] }, testIgnore: API_SPECS },
+    { name: 'chromium', use: chromiumUse(), testIgnore: API_SPECS },
     { name: 'firefox', use: { ...devices['Desktop Firefox'] }, testIgnore: API_SPECS },
     { name: 'webkit', use: { ...devices['Desktop Safari'] }, testIgnore: API_SPECS },
     { name: 'api', testMatch: API_SPECS }
