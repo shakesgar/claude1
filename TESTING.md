@@ -38,9 +38,72 @@ BASE_URL=http://localhost:4000 npx playwright test          # macOS/Linux
 $env:BASE_URL='http://localhost:4000'; npx playwright test  # PowerShell
 ```
 
+## Test settings
+
+`testsettings.json` in the project root controls how Playwright runs, without editing `playwright.config.js`:
+
+```json
+{
+  "headless": true,
+  "slowMo": 0
+}
+```
+
+| Setting    | Type                      | Default | What it does                                                                                 |
+|------------|---------------------------|---------|----------------------------------------------------------------------------------------------|
+| `headless` | boolean                   | `true`  | `true` runs browsers with no visible window. `false` opens a window so you can watch the tests. |
+| `slowMo`   | whole number, 0 or more   | `0`     | Pauses this many milliseconds after each browser action (click, fill, navigation). `0` is off. |
+
+The file is listed in `.gitignore`, so it is your own local copy and your changes to it are not pushed. Create it if you do not have one; without it the defaults above apply, which is what CI uses.
+
+### headless
+
+When the same thing is set in more than one place, the order of priority is:
+
+1. **Command-line flags.** `--headed`, `--ui` and `--debug` show the browser even when the file says `"headless": true`.
+2. **`testsettings.json`.**
+3. **The default** in `config/testSettings.js`.
+
+Playwright has no `--headless` flag, so when the file says `false` the only way back to headless is to edit the file.
+
+The GitHub Actions runner has no display, so a headed run fails there.
+
+### slowMo
+
+`slowMo` is for debugging and demos: together with `"headless": false` it makes a test slow enough to follow by eye. Leave it at `0` for normal and CI runs. Every action waits the full delay, so `1000` turns a 2-second test into a 6-second one, and a test with many actions can pass the 30-second test timeout.
+
+To slow down a single run without editing the file, set the `SLOWMO` environment variable:
+
+```
+SLOWMO=1000 npx playwright test smoke --project=chromium          # macOS/Linux
+$env:SLOWMO='1000'; npx playwright test smoke --project=chromium  # PowerShell
+```
+
+In PowerShell the variable stays set for the rest of the session; clear it with `Remove-Item Env:SLOWMO`.
+
+The order of priority is:
+
+1. **The `SLOWMO` environment variable.** `SLOWMO=0` turns the delay off even when the file sets one. An empty value is ignored.
+2. **`testsettings.json`.**
+3. **The default** in `config/testSettings.js`.
+
+Playwright has no command-line flag for this.
+
+### How the settings are checked
+
+- If the file is missing, the defaults are used and one line says so.
+- If the file is not valid JSON, is not a JSON object, contains a setting that does not exist (such as a misspelt `"headles"`), or has an invalid value (such as `"slowMo": -1` or `"slowMo": "1000"`), the run stops with an error that names the file, the setting and the value.
+- If `SLOWMO` is not a whole number of 0 or more, the run stops with an error that names the environment variable.
+
+The API tests use no browser and ignore both settings.
+
+To add a setting, add one line to the `SETTINGS` table in `config/testSettings.js`, use `settings.<name>` in `playwright.config.js`, and add a row to the table above.
+
 ## Structure
 
 ```
+testsettings.json           local run settings: headless, slowMo (see above; not committed)
+config/testSettings.js      loads and validates testsettings.json
 playwright.config.js        projects, web server, retries, reporters
 tests/
   global-setup.js           checks test mode, logs in as each role, saves the sessions

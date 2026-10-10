@@ -1,4 +1,10 @@
+const path = require('path')
 const { defineConfig, devices } = require('@playwright/test')
+const { loadTestSettings } = require('./config/testSettings')
+
+// Run settings a person can edit without touching this file (see TESTING.md).
+// Command-line flags such as --headed and the SLOWMO environment variable take priority over them.
+const settings = loadTestSettings(path.join(__dirname, 'testsettings.json'))
 
 // Set BASE_URL to test an app that is already running (it must be in test mode).
 // Without it, Playwright starts the app itself on port 3000.
@@ -26,6 +32,8 @@ module.exports = defineConfig({
 
   use: {
     baseURL,
+    headless: settings.headless,
+    launchOptions: { slowMo: settings.slowMo },
     trace: 'on-first-retry',
     screenshot: 'only-on-failure'
   },

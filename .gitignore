@@ -6,3 +6,6 @@ test-results/
 playwright-report/
 blob-report/
 tests/.auth/
+
+# Local run settings (headless, slowMo); defaults apply when it is missing
+testsettings.json
