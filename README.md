@@ -64,9 +64,20 @@ Emails use `example.com` and phone numbers use the `07700 900xxx` range reserved
 - Tables set `aria-busy="true"` while loading, which gives tests something to wait on.
 - The candidate list keeps its search, filters, sort and page in the URL query string.
 
+## Automated tests
+
+The repo includes a Playwright suite (UI tests on Chromium, Firefox and WebKit, plus API tests). See [TESTING.md](TESTING.md).
+
+```
+npx playwright install   # first time only
+npm test
+```
+
 ## Project layout
 
 ```
+tests/               Playwright tests, page objects and fixtures
+playwright.config.js Playwright configuration
 server.js            entry point
 src/                 Express app, in-memory store and API routes
 views/               HTML pages
