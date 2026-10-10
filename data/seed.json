@@ -1,0 +1,2366 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Alex Admin",
+      "email": "admin@example.com",
+      "password": "Password123!",
+      "role": "admin",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Riley Recruiter",
+      "email": "recruiter@example.com",
+      "password": "Password123!",
+      "role": "recruiter",
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "Robin Recruiter",
+      "email": "recruiter2@example.com",
+      "password": "Password123!",
+      "role": "recruiter",
+      "active": true
+    },
+    {
+      "id": 4,
+      "name": "Dana Disabled",
+      "email": "disabled@example.com",
+      "password": "Password123!",
+      "role": "recruiter",
+      "active": false
+    }
+  ],
+  "candidates": [
+    {
+      "id": 1,
+      "firstName": "Amara",
+      "lastName": "Demoray",
+      "email": "amara.demoray@example.com",
+      "phone": "07700 900101",
+      "location": "London",
+      "employmentHistory": [
+        {
+          "company": "Northwind Demo Ltd",
+          "jobTitle": "Software Developer",
+          "startDate": "2021-01-01",
+          "endDate": "",
+          "current": true
+        }
+      ],
+      "skills": [
+        "JavaScript",
+        "TypeScript",
+        "Python"
+      ],
+      "salaryMin": 24000,
+      "salaryMax": 28000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "immediate",
+      "noticePeriodWeeks": null,
+      "availableFrom": "",
+      "willingToRelocate": true,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-01-05T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-01-05T09:30:00.000Z",
+      "updatedAt": "2026-01-05T09:30:00.000Z"
+    },
+    {
+      "id": 2,
+      "firstName": "Ben",
+      "lastName": "Placeholt",
+      "email": "ben.placeholt@example.com",
+      "phone": "07700 900102",
+      "location": "Manchester",
+      "employmentHistory": [
+        {
+          "company": "Bluebird Sample Co",
+          "jobTitle": "QA Engineer",
+          "startDate": "2022-02-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Silverline Example Ltd",
+          "jobTitle": "Marketing Executive",
+          "startDate": "2018-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        }
+      ],
+      "skills": [
+        "TypeScript",
+        "C#",
+        "Docker"
+      ],
+      "salaryMin": 28000,
+      "salaryMax": 35000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 4,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-01-13T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-01-13T09:30:00.000Z",
+      "updatedAt": "2026-01-13T09:30:00.000Z"
+    },
+    {
+      "id": 3,
+      "firstName": "Chloe",
+      "lastName": "Protoway",
+      "email": "chloe.protoway@example.com",
+      "phone": "07700 900103",
+      "location": "Leeds",
+      "employmentHistory": [
+        {
+          "company": "Redbrick Test Group",
+          "jobTitle": "Data Analyst",
+          "startDate": "2023-03-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Oakwood Fixture Partners",
+          "jobTitle": "Accounts Assistant",
+          "startDate": "2019-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        },
+        {
+          "company": "Lanternfish Demo Studios",
+          "jobTitle": "Front End Developer",
+          "startDate": "2013-06-01",
+          "endDate": "2016-11-30",
+          "current": false
+        }
+      ],
+      "skills": [
+        "Python",
+        "Node.js",
+        "JavaScript"
+      ],
+      "salaryMin": 32000,
+      "salaryMax": 42000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 8,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Interviewing",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-01-21T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "status": "Interviewing",
+          "changedAt": "2026-02-20T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-01-21T09:30:00.000Z",
+      "updatedAt": "2026-02-20T09:30:00.000Z"
+    },
+    {
+      "id": 4,
+      "firstName": "Dev",
+      "lastName": "Mockford",
+      "email": "dev.mockford@example.com",
+      "phone": "07700 900104",
+      "location": "Bristol",
+      "employmentHistory": [
+        {
+          "company": "Greenfield Mock Systems",
+          "jobTitle": "Sales Executive",
+          "startDate": "2024-04-01",
+          "endDate": "",
+          "current": true
+        }
+      ],
+      "skills": [
+        "Java",
+        "Test Automation",
+        "Node.js"
+      ],
+      "salaryMin": 36000,
+      "salaryMax": 49000,
+      "rightToWork": "visa",
+      "visaType": "Skilled Worker",
+      "visaExpiry": "2030-04-15",
+      "availability": "immediate",
+      "noticePeriodWeeks": null,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-01-29T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-01-29T09:30:00.000Z",
+      "updatedAt": "2026-01-29T09:30:00.000Z"
+    },
+    {
+      "id": 5,
+      "firstName": "Elena",
+      "lastName": "Fakenham",
+      "email": "elena.fakenham@example.com",
+      "phone": "07700 900105",
+      "location": "Birmingham",
+      "employmentHistory": [
+        {
+          "company": "Silverline Example Ltd",
+          "jobTitle": "Cloud Engineer",
+          "startDate": "2021-05-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Lanternfish Demo Studios",
+          "jobTitle": "Project Coordinator",
+          "startDate": "2018-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        }
+      ],
+      "skills": [
+        "C#",
+        "Marketing",
+        "Accounting"
+      ],
+      "salaryMin": 40000,
+      "salaryMax": 44000,
+      "rightToWork": "settled",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 2,
+      "availableFrom": "",
+      "willingToRelocate": true,
+      "status": "Placed",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-02-06T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "status": "Placed",
+          "changedAt": "2026-03-08T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-02-06T09:30:00.000Z",
+      "updatedAt": "2026-03-08T09:30:00.000Z"
+    },
+    {
+      "id": 6,
+      "firstName": "Finn",
+      "lastName": "Exampleby",
+      "email": "finn.exampleby@example.com",
+      "phone": "07700 900106",
+      "location": "Glasgow",
+      "employmentHistory": [
+        {
+          "company": "Oakwood Fixture Partners",
+          "jobTitle": "Marketing Executive",
+          "startDate": "2022-06-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Northwind Demo Ltd",
+          "jobTitle": "Front End Developer",
+          "startDate": "2019-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        },
+        {
+          "company": "Redbrick Test Group",
+          "jobTitle": "Data Analyst",
+          "startDate": "2013-06-01",
+          "endDate": "2016-11-30",
+          "current": false
+        }
+      ],
+      "skills": [
+        "SQL",
+        "JavaScript"
+      ],
+      "salaryMin": 44000,
+      "salaryMax": 51000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 4,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-02-14T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-02-14T09:30:00.000Z",
+      "updatedAt": "2026-02-14T09:30:00.000Z"
+    },
+    {
+      "id": 7,
+      "firstName": "Grace",
+      "lastName": "Sampleton",
+      "email": "grace.sampleton@example.com",
+      "phone": "07700 900107",
+      "location": "Cardiff",
+      "employmentHistory": [
+        {
+          "company": "Harbour Trial Logistics",
+          "jobTitle": "Accounts Assistant",
+          "startDate": "2023-07-01",
+          "endDate": "",
+          "current": true
+        }
+      ],
+      "skills": [
+        "React",
+        "Java",
+        "Sales"
+      ],
+      "salaryMin": 48000,
+      "salaryMax": 58000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "immediate",
+      "noticePeriodWeeks": null,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-02-22T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-02-22T09:30:00.000Z",
+      "updatedAt": "2026-02-22T09:30:00.000Z"
+    },
+    {
+      "id": 8,
+      "firstName": "Hugo",
+      "lastName": "Seedham",
+      "email": "hugo.seedham@example.com",
+      "phone": "07700 900108",
+      "location": "Edinburgh",
+      "employmentHistory": [
+        {
+          "company": "Lanternfish Demo Studios",
+          "jobTitle": "Support Advisor",
+          "startDate": "2024-08-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Redbrick Test Group",
+          "jobTitle": "QA Engineer",
+          "startDate": "2018-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        }
+      ],
+      "skills": [
+        "Node.js",
+        "React",
+        "Java"
+      ],
+      "salaryMin": 52000,
+      "salaryMax": 65000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 12,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Unavailable",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-03-02T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "status": "Unavailable",
+          "changedAt": "2026-04-01T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-03-02T09:30:00.000Z",
+      "updatedAt": "2026-04-01T09:30:00.000Z"
+    },
+    {
+      "id": 9,
+      "firstName": "Isla",
+      "lastName": "Draftson",
+      "email": "isla.draftson@example.com",
+      "phone": "07700 900109",
+      "location": "Liverpool",
+      "employmentHistory": [
+        {
+          "company": "Northwind Demo Ltd",
+          "jobTitle": "Project Coordinator",
+          "startDate": "2021-09-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Greenfield Mock Systems",
+          "jobTitle": "Data Analyst",
+          "startDate": "2019-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        },
+        {
+          "company": "Oakwood Fixture Partners",
+          "jobTitle": "Marketing Executive",
+          "startDate": "2013-06-01",
+          "endDate": "2016-11-30",
+          "current": false
+        }
+      ],
+      "skills": [
+        "AWS",
+        "Docker",
+        "Test Automation"
+      ],
+      "salaryMin": 56000,
+      "salaryMax": 60000,
+      "rightToWork": "visa",
+      "visaType": "Global Talent",
+      "visaExpiry": "2029-09-15",
+      "availability": "notice",
+      "noticePeriodWeeks": 2,
+      "availableFrom": "",
+      "willingToRelocate": true,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-03-10T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-03-10T09:30:00.000Z",
+      "updatedAt": "2026-03-10T09:30:00.000Z"
+    },
+    {
+      "id": 10,
+      "firstName": "Jamal",
+      "lastName": "Testwell",
+      "email": "jamal.testwell@example.com",
+      "phone": "07700 900110",
+      "location": "Newcastle",
+      "employmentHistory": [
+        {
+          "company": "Bluebird Sample Co",
+          "jobTitle": "Front End Developer",
+          "startDate": "2022-01-01",
+          "endDate": "",
+          "current": true
+        }
+      ],
+      "skills": [
+        "Docker",
+        "Sales",
+        "TypeScript"
+      ],
+      "salaryMin": 60000,
+      "salaryMax": 67000,
+      "rightToWork": "settled",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "immediate",
+      "noticePeriodWeeks": null,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Interviewing",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-03-18T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "status": "Interviewing",
+          "changedAt": "2026-04-17T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-03-18T09:30:00.000Z",
+      "updatedAt": "2026-04-17T09:30:00.000Z"
+    },
+    {
+      "id": 11,
+      "firstName": "Keira",
+      "lastName": "Stubley",
+      "email": "keira.stubley@example.com",
+      "phone": "07700 900111",
+      "location": "London",
+      "employmentHistory": [
+        {
+          "company": "Redbrick Test Group",
+          "jobTitle": "Software Developer",
+          "startDate": "2023-02-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Oakwood Fixture Partners",
+          "jobTitle": "Cloud Engineer",
+          "startDate": "2018-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        }
+      ],
+      "skills": [
+        "Test Automation",
+        "Customer Service",
+        "AWS"
+      ],
+      "salaryMin": 24000,
+      "salaryMax": 34000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 8,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-03-26T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-03-26T09:30:00.000Z",
+      "updatedAt": "2026-03-26T09:30:00.000Z"
+    },
+    {
+      "id": 12,
+      "firstName": "Liam",
+      "lastName": "Trialby",
+      "email": "liam.trialby@example.com",
+      "phone": "07700 900112",
+      "location": "Manchester",
+      "employmentHistory": [
+        {
+          "company": "Greenfield Mock Systems",
+          "jobTitle": "QA Engineer",
+          "startDate": "2024-03-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Harbour Trial Logistics",
+          "jobTitle": "Marketing Executive",
+          "startDate": "2019-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        },
+        {
+          "company": "Northwind Demo Ltd",
+          "jobTitle": "Project Coordinator",
+          "startDate": "2013-06-01",
+          "endDate": "2016-11-30",
+          "current": false
+        }
+      ],
+      "skills": [
+        "Project Management",
+        "Python",
+        "Customer Service"
+      ],
+      "salaryMin": 28000,
+      "salaryMax": 41000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 12,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-04-03T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-04-03T09:30:00.000Z",
+      "updatedAt": "2026-04-03T09:30:00.000Z"
+    },
+    {
+      "id": 13,
+      "firstName": "Mei",
+      "lastName": "Casewell",
+      "email": "mei.casewell@example.com",
+      "phone": "07700 900113",
+      "location": "Leeds",
+      "employmentHistory": [
+        {
+          "company": "Silverline Example Ltd",
+          "jobTitle": "Data Analyst",
+          "startDate": "2021-04-01",
+          "endDate": "",
+          "current": true
+        }
+      ],
+      "skills": [
+        "Sales",
+        "SQL",
+        "React"
+      ],
+      "salaryMin": 32000,
+      "salaryMax": 36000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "immediate",
+      "noticePeriodWeeks": null,
+      "availableFrom": "",
+      "willingToRelocate": true,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-04-11T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-04-11T09:30:00.000Z",
+      "updatedAt": "2026-04-11T09:30:00.000Z"
+    },
+    {
+      "id": 14,
+      "firstName": "Noah",
+      "lastName": "Fixton",
+      "email": "noah.fixton@example.com",
+      "phone": "07700 900114",
+      "location": "Bristol",
+      "employmentHistory": [
+        {
+          "company": "Oakwood Fixture Partners",
+          "jobTitle": "Sales Executive",
+          "startDate": "2022-05-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Northwind Demo Ltd",
+          "jobTitle": "Support Advisor",
+          "startDate": "2018-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        }
+      ],
+      "skills": [
+        "Marketing",
+        "AWS"
+      ],
+      "salaryMin": 36000,
+      "salaryMax": 43000,
+      "rightToWork": "visa",
+      "visaType": "Graduate",
+      "visaExpiry": "2030-05-15",
+      "availability": "notice",
+      "noticePeriodWeeks": 4,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Placed",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-04-19T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "status": "Placed",
+          "changedAt": "2026-05-19T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-04-19T09:30:00.000Z",
+      "updatedAt": "2026-05-19T09:30:00.000Z"
+    },
+    {
+      "id": 15,
+      "firstName": "Olive",
+      "lastName": "Specimen",
+      "email": "olive.specimen@example.com",
+      "phone": "07700 900115",
+      "location": "Birmingham",
+      "employmentHistory": [
+        {
+          "company": "Harbour Trial Logistics",
+          "jobTitle": "Cloud Engineer",
+          "startDate": "2023-06-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Bluebird Sample Co",
+          "jobTitle": "Project Coordinator",
+          "startDate": "2019-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        },
+        {
+          "company": "Greenfield Mock Systems",
+          "jobTitle": "QA Engineer",
+          "startDate": "2013-06-01",
+          "endDate": "2016-11-30",
+          "current": false
+        }
+      ],
+      "skills": [
+        "Accounting",
+        "Project Management",
+        "C#"
+      ],
+      "salaryMin": 40000,
+      "salaryMax": 50000,
+      "rightToWork": "settled",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 8,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-04-27T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-04-27T09:30:00.000Z",
+      "updatedAt": "2026-04-27T09:30:00.000Z"
+    },
+    {
+      "id": 16,
+      "firstName": "Priya",
+      "lastName": "Scenarish",
+      "email": "priya.scenarish@example.com",
+      "phone": "07700 900116",
+      "location": "Glasgow",
+      "employmentHistory": [
+        {
+          "company": "Lanternfish Demo Studios",
+          "jobTitle": "Marketing Executive",
+          "startDate": "2024-07-01",
+          "endDate": "",
+          "current": true
+        }
+      ],
+      "skills": [
+        "Customer Service",
+        "Accounting",
+        "Project Management"
+      ],
+      "salaryMin": 44000,
+      "salaryMax": 57000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "immediate",
+      "noticePeriodWeeks": null,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-05-05T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-05-05T09:30:00.000Z",
+      "updatedAt": "2026-05-05T09:30:00.000Z"
+    },
+    {
+      "id": 17,
+      "firstName": "Quinn",
+      "lastName": "Demoray",
+      "email": "quinn.demoray@example.com",
+      "phone": "07700 900117",
+      "location": "Cardiff",
+      "employmentHistory": [
+        {
+          "company": "Northwind Demo Ltd",
+          "jobTitle": "Accounts Assistant",
+          "startDate": "2021-08-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Greenfield Mock Systems",
+          "jobTitle": "Software Developer",
+          "startDate": "2018-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        }
+      ],
+      "skills": [
+        "JavaScript",
+        "TypeScript",
+        "Python"
+      ],
+      "salaryMin": 48000,
+      "salaryMax": 52000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 2,
+      "availableFrom": "",
+      "willingToRelocate": true,
+      "status": "Interviewing",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-05-13T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "status": "Interviewing",
+          "changedAt": "2026-06-12T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-05-13T09:30:00.000Z",
+      "updatedAt": "2026-06-12T09:30:00.000Z"
+    },
+    {
+      "id": 18,
+      "firstName": "Ravi",
+      "lastName": "Placeholt",
+      "email": "ravi.placeholt@example.com",
+      "phone": "07700 900118",
+      "location": "Edinburgh",
+      "employmentHistory": [
+        {
+          "company": "Bluebird Sample Co",
+          "jobTitle": "Support Advisor",
+          "startDate": "2022-09-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Silverline Example Ltd",
+          "jobTitle": "QA Engineer",
+          "startDate": "2019-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        },
+        {
+          "company": "Harbour Trial Logistics",
+          "jobTitle": "Cloud Engineer",
+          "startDate": "2013-06-01",
+          "endDate": "2016-11-30",
+          "current": false
+        }
+      ],
+      "skills": [
+        "TypeScript",
+        "C#",
+        "Docker"
+      ],
+      "salaryMin": 52000,
+      "salaryMax": 59000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 4,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-05-21T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-05-21T09:30:00.000Z",
+      "updatedAt": "2026-05-21T09:30:00.000Z"
+    },
+    {
+      "id": 19,
+      "firstName": "Sofia",
+      "lastName": "Protoway",
+      "email": "sofia.protoway@example.com",
+      "phone": "07700 900119",
+      "location": "Liverpool",
+      "employmentHistory": [
+        {
+          "company": "Redbrick Test Group",
+          "jobTitle": "Project Coordinator",
+          "startDate": "2023-01-01",
+          "endDate": "",
+          "current": true
+        }
+      ],
+      "skills": [
+        "Python",
+        "Node.js",
+        "JavaScript"
+      ],
+      "salaryMin": 56000,
+      "salaryMax": 66000,
+      "rightToWork": "visa",
+      "visaType": "Skilled Worker",
+      "visaExpiry": "2029-01-15",
+      "availability": "immediate",
+      "noticePeriodWeeks": null,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Unavailable",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-05-29T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "status": "Unavailable",
+          "changedAt": "2026-06-28T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-05-29T09:30:00.000Z",
+      "updatedAt": "2026-06-28T09:30:00.000Z"
+    },
+    {
+      "id": 20,
+      "firstName": "Theo",
+      "lastName": "Mockford",
+      "email": "theo.mockford@example.com",
+      "phone": "07700 900120",
+      "location": "Newcastle",
+      "employmentHistory": [
+        {
+          "company": "Greenfield Mock Systems",
+          "jobTitle": "Front End Developer",
+          "startDate": "2024-02-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Harbour Trial Logistics",
+          "jobTitle": "Sales Executive",
+          "startDate": "2018-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        }
+      ],
+      "skills": [
+        "Java",
+        "Test Automation",
+        "Node.js"
+      ],
+      "salaryMin": 60000,
+      "salaryMax": 73000,
+      "rightToWork": "settled",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 12,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-06-06T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-06-06T09:30:00.000Z",
+      "updatedAt": "2026-06-06T09:30:00.000Z"
+    },
+    {
+      "id": 21,
+      "firstName": "Uma",
+      "lastName": "Fakenham",
+      "email": "uma.fakenham@example.com",
+      "phone": "07700 900121",
+      "location": "London",
+      "employmentHistory": [
+        {
+          "company": "Silverline Example Ltd",
+          "jobTitle": "Software Developer",
+          "startDate": "2021-03-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Lanternfish Demo Studios",
+          "jobTitle": "Cloud Engineer",
+          "startDate": "2019-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        },
+        {
+          "company": "Bluebird Sample Co",
+          "jobTitle": "Support Advisor",
+          "startDate": "2013-06-01",
+          "endDate": "2016-11-30",
+          "current": false
+        }
+      ],
+      "skills": [
+        "C#",
+        "Marketing",
+        "Accounting"
+      ],
+      "salaryMin": 24000,
+      "salaryMax": 28000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 2,
+      "availableFrom": "",
+      "willingToRelocate": true,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-06-14T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-06-14T09:30:00.000Z",
+      "updatedAt": "2026-06-14T09:30:00.000Z"
+    },
+    {
+      "id": 22,
+      "firstName": "Viktor",
+      "lastName": "Exampleby",
+      "email": "viktor.exampleby@example.com",
+      "phone": "07700 900122",
+      "location": "Manchester",
+      "employmentHistory": [
+        {
+          "company": "Oakwood Fixture Partners",
+          "jobTitle": "QA Engineer",
+          "startDate": "2022-04-01",
+          "endDate": "",
+          "current": true
+        }
+      ],
+      "skills": [
+        "SQL",
+        "JavaScript"
+      ],
+      "salaryMin": 28000,
+      "salaryMax": 35000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "immediate",
+      "noticePeriodWeeks": null,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-06-22T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-06-22T09:30:00.000Z",
+      "updatedAt": "2026-06-22T09:30:00.000Z"
+    },
+    {
+      "id": 23,
+      "firstName": "Willow",
+      "lastName": "Sampleton",
+      "email": "willow.sampleton@example.com",
+      "phone": "07700 900123",
+      "location": "Leeds",
+      "employmentHistory": [
+        {
+          "company": "Harbour Trial Logistics",
+          "jobTitle": "Data Analyst",
+          "startDate": "2023-05-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Bluebird Sample Co",
+          "jobTitle": "Accounts Assistant",
+          "startDate": "2018-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        }
+      ],
+      "skills": [
+        "React",
+        "Java",
+        "Sales"
+      ],
+      "salaryMin": 32000,
+      "salaryMax": 42000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 8,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Placed",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-06-30T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "status": "Placed",
+          "changedAt": "2026-07-30T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-06-30T09:30:00.000Z",
+      "updatedAt": "2026-07-30T09:30:00.000Z"
+    },
+    {
+      "id": 24,
+      "firstName": "Xavier",
+      "lastName": "Seedham",
+      "email": "xavier.seedham@example.com",
+      "phone": "07700 900124",
+      "location": "Bristol",
+      "employmentHistory": [
+        {
+          "company": "Lanternfish Demo Studios",
+          "jobTitle": "Sales Executive",
+          "startDate": "2024-06-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Redbrick Test Group",
+          "jobTitle": "Support Advisor",
+          "startDate": "2019-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        },
+        {
+          "company": "Silverline Example Ltd",
+          "jobTitle": "Software Developer",
+          "startDate": "2013-06-01",
+          "endDate": "2016-11-30",
+          "current": false
+        }
+      ],
+      "skills": [
+        "Node.js",
+        "React",
+        "Java"
+      ],
+      "salaryMin": 36000,
+      "salaryMax": 49000,
+      "rightToWork": "visa",
+      "visaType": "Global Talent",
+      "visaExpiry": "2030-06-15",
+      "availability": "notice",
+      "noticePeriodWeeks": 12,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Interviewing",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-07-08T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "status": "Interviewing",
+          "changedAt": "2026-08-07T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-07-08T09:30:00.000Z",
+      "updatedAt": "2026-08-07T09:30:00.000Z"
+    },
+    {
+      "id": 25,
+      "firstName": "Yasmin",
+      "lastName": "Draftson",
+      "email": "yasmin.draftson@example.com",
+      "phone": "07700 900125",
+      "location": "Birmingham",
+      "employmentHistory": [
+        {
+          "company": "Northwind Demo Ltd",
+          "jobTitle": "Cloud Engineer",
+          "startDate": "2021-07-01",
+          "endDate": "",
+          "current": true
+        }
+      ],
+      "skills": [
+        "AWS",
+        "Docker",
+        "Test Automation"
+      ],
+      "salaryMin": 40000,
+      "salaryMax": 44000,
+      "rightToWork": "settled",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "immediate",
+      "noticePeriodWeeks": null,
+      "availableFrom": "",
+      "willingToRelocate": true,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-07-16T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-07-16T09:30:00.000Z",
+      "updatedAt": "2026-07-16T09:30:00.000Z"
+    },
+    {
+      "id": 26,
+      "firstName": "Zane",
+      "lastName": "Testwell",
+      "email": "zane.testwell@example.com",
+      "phone": "07700 900126",
+      "location": "Glasgow",
+      "employmentHistory": [
+        {
+          "company": "Bluebird Sample Co",
+          "jobTitle": "Marketing Executive",
+          "startDate": "2022-08-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Silverline Example Ltd",
+          "jobTitle": "Front End Developer",
+          "startDate": "2018-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        }
+      ],
+      "skills": [
+        "Docker",
+        "Sales",
+        "TypeScript"
+      ],
+      "salaryMin": 44000,
+      "salaryMax": 51000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 4,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-07-24T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-07-24T09:30:00.000Z",
+      "updatedAt": "2026-07-24T09:30:00.000Z"
+    },
+    {
+      "id": 27,
+      "firstName": "Aiden",
+      "lastName": "Stubley",
+      "email": "aiden.stubley@example.com",
+      "phone": "07700 900127",
+      "location": "Cardiff",
+      "employmentHistory": [
+        {
+          "company": "Redbrick Test Group",
+          "jobTitle": "Accounts Assistant",
+          "startDate": "2023-09-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Oakwood Fixture Partners",
+          "jobTitle": "Software Developer",
+          "startDate": "2019-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        },
+        {
+          "company": "Lanternfish Demo Studios",
+          "jobTitle": "Sales Executive",
+          "startDate": "2013-06-01",
+          "endDate": "2016-11-30",
+          "current": false
+        }
+      ],
+      "skills": [
+        "Test Automation",
+        "Customer Service",
+        "AWS"
+      ],
+      "salaryMin": 48000,
+      "salaryMax": 58000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 8,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-08-01T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-08-01T09:30:00.000Z",
+      "updatedAt": "2026-08-01T09:30:00.000Z"
+    },
+    {
+      "id": 28,
+      "firstName": "Bea",
+      "lastName": "Trialby",
+      "email": "bea.trialby@example.com",
+      "phone": "07700 900128",
+      "location": "Edinburgh",
+      "employmentHistory": [
+        {
+          "company": "Greenfield Mock Systems",
+          "jobTitle": "Support Advisor",
+          "startDate": "2024-01-01",
+          "endDate": "",
+          "current": true
+        }
+      ],
+      "skills": [
+        "Project Management",
+        "Python",
+        "Customer Service"
+      ],
+      "salaryMin": 52000,
+      "salaryMax": 65000,
+      "rightToWork": "citizen",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "immediate",
+      "noticePeriodWeeks": null,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-08-09T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-08-09T09:30:00.000Z",
+      "updatedAt": "2026-08-09T09:30:00.000Z"
+    },
+    {
+      "id": 29,
+      "firstName": "Callum",
+      "lastName": "Casewell",
+      "email": "callum.casewell@example.com",
+      "phone": "07700 900129",
+      "location": "Liverpool",
+      "employmentHistory": [
+        {
+          "company": "Silverline Example Ltd",
+          "jobTitle": "Project Coordinator",
+          "startDate": "2021-02-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Lanternfish Demo Studios",
+          "jobTitle": "Data Analyst",
+          "startDate": "2018-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        }
+      ],
+      "skills": [
+        "Sales",
+        "SQL",
+        "React"
+      ],
+      "salaryMin": 56000,
+      "salaryMax": 60000,
+      "rightToWork": "visa",
+      "visaType": "Graduate",
+      "visaExpiry": "2029-02-15",
+      "availability": "notice",
+      "noticePeriodWeeks": 2,
+      "availableFrom": "",
+      "willingToRelocate": true,
+      "status": "Active",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-08-17T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-08-17T09:30:00.000Z",
+      "updatedAt": "2026-08-17T09:30:00.000Z"
+    },
+    {
+      "id": 30,
+      "firstName": "Dalia",
+      "lastName": "Fixton",
+      "email": "dalia.fixton@example.com",
+      "phone": "07700 900130",
+      "location": "Newcastle",
+      "employmentHistory": [
+        {
+          "company": "Oakwood Fixture Partners",
+          "jobTitle": "Front End Developer",
+          "startDate": "2022-03-01",
+          "endDate": "",
+          "current": true
+        },
+        {
+          "company": "Northwind Demo Ltd",
+          "jobTitle": "Sales Executive",
+          "startDate": "2019-03-01",
+          "endDate": "2020-12-31",
+          "current": false
+        },
+        {
+          "company": "Redbrick Test Group",
+          "jobTitle": "Accounts Assistant",
+          "startDate": "2013-06-01",
+          "endDate": "2016-11-30",
+          "current": false
+        }
+      ],
+      "skills": [
+        "Marketing",
+        "AWS"
+      ],
+      "salaryMin": 60000,
+      "salaryMax": 67000,
+      "rightToWork": "settled",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "notice",
+      "noticePeriodWeeks": 4,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Unavailable",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Active",
+          "changedAt": "2026-08-25T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "status": "Unavailable",
+          "changedAt": "2026-09-24T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-08-25T09:30:00.000Z",
+      "updatedAt": "2026-09-24T09:30:00.000Z"
+    },
+    {
+      "id": 31,
+      "firstName": "Ewan",
+      "lastName": "Specimen",
+      "email": "ewan.specimen@example.com",
+      "phone": "",
+      "location": "",
+      "employmentHistory": [],
+      "skills": [],
+      "salaryMin": null,
+      "salaryMax": null,
+      "rightToWork": "",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "",
+      "noticePeriodWeeks": null,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Draft",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Draft",
+          "changedAt": "2026-09-02T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-09-02T09:30:00.000Z",
+      "updatedAt": "2026-09-02T09:30:00.000Z"
+    },
+    {
+      "id": 32,
+      "firstName": "Freya",
+      "lastName": "Scenarish",
+      "email": "freya.scenarish@example.com",
+      "phone": "07700 900132",
+      "location": "Manchester",
+      "employmentHistory": [
+        {
+          "company": "Lanternfish Demo Studios",
+          "jobTitle": "QA Engineer",
+          "startDate": "2024-05-01",
+          "endDate": "",
+          "current": true
+        }
+      ],
+      "skills": [],
+      "salaryMin": null,
+      "salaryMax": null,
+      "rightToWork": "",
+      "visaType": "",
+      "visaExpiry": "",
+      "availability": "",
+      "noticePeriodWeeks": null,
+      "availableFrom": "",
+      "willingToRelocate": false,
+      "status": "Draft",
+      "cv": null,
+      "statusHistory": [
+        {
+          "status": "Draft",
+          "changedAt": "2026-09-10T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-09-10T09:30:00.000Z",
+      "updatedAt": "2026-09-10T09:30:00.000Z"
+    }
+  ],
+  "jobs": [
+    {
+      "id": 1,
+      "title": "Senior JavaScript Developer",
+      "client": "Northwind Demo Ltd",
+      "location": "London",
+      "salaryMin": 60000,
+      "salaryMax": 80000,
+      "status": "Open",
+      "description": "Fictional senior javascript developer vacancy at Northwind Demo Ltd, used for demo and testing only.",
+      "createdAt": "2025-12-01T10:00:00.000Z",
+      "updatedAt": "2025-12-01T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "QA Automation Engineer",
+      "client": "Bluebird Sample Co",
+      "location": "Manchester",
+      "salaryMin": 45000,
+      "salaryMax": 60000,
+      "status": "Open",
+      "description": "Fictional qa automation engineer vacancy at Bluebird Sample Co, used for demo and testing only.",
+      "createdAt": "2025-12-04T10:00:00.000Z",
+      "updatedAt": "2025-12-04T10:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "title": "Data Analyst",
+      "client": "Redbrick Test Group",
+      "location": "Leeds",
+      "salaryMin": 35000,
+      "salaryMax": 48000,
+      "status": "Open",
+      "description": "Fictional data analyst vacancy at Redbrick Test Group, used for demo and testing only.",
+      "createdAt": "2025-12-07T10:00:00.000Z",
+      "updatedAt": "2025-12-07T10:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "title": "Sales Executive",
+      "client": "Harbour Trial Logistics",
+      "location": "Bristol",
+      "salaryMin": 28000,
+      "salaryMax": 40000,
+      "status": "Open",
+      "description": "Fictional sales executive vacancy at Harbour Trial Logistics, used for demo and testing only.",
+      "createdAt": "2025-12-10T10:00:00.000Z",
+      "updatedAt": "2025-12-10T10:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "title": "Cloud Platform Engineer",
+      "client": "Greenfield Mock Systems",
+      "location": "Remote",
+      "salaryMin": 65000,
+      "salaryMax": 90000,
+      "status": "Open",
+      "description": "Fictional cloud platform engineer vacancy at Greenfield Mock Systems, used for demo and testing only.",
+      "createdAt": "2025-12-13T10:00:00.000Z",
+      "updatedAt": "2025-12-13T10:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "title": "Marketing Manager",
+      "client": "Silverline Example Ltd",
+      "location": "Birmingham",
+      "salaryMin": 45000,
+      "salaryMax": 55000,
+      "status": "On Hold",
+      "description": "Fictional marketing manager vacancy at Silverline Example Ltd, used for demo and testing only.",
+      "createdAt": "2025-12-16T10:00:00.000Z",
+      "updatedAt": "2025-12-16T10:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "title": "Finance Assistant",
+      "client": "Oakwood Fixture Partners",
+      "location": "Glasgow",
+      "salaryMin": 24000,
+      "salaryMax": 30000,
+      "status": "Closed",
+      "description": "Fictional finance assistant vacancy at Oakwood Fixture Partners, used for demo and testing only.",
+      "createdAt": "2025-12-19T10:00:00.000Z",
+      "updatedAt": "2025-12-19T10:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "title": "Customer Support Lead",
+      "client": "Lanternfish Demo Studios",
+      "location": "Cardiff",
+      "salaryMin": 30000,
+      "salaryMax": 38000,
+      "status": "Draft",
+      "description": "Fictional customer support lead vacancy at Lanternfish Demo Studios, used for demo and testing only.",
+      "createdAt": "2025-12-22T10:00:00.000Z",
+      "updatedAt": "2025-12-22T10:00:00.000Z"
+    }
+  ],
+  "applications": [
+    {
+      "id": 1,
+      "candidateId": 1,
+      "jobId": 1,
+      "stage": "Applied",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-01-07T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-01-07T09:30:00.000Z",
+      "updatedAt": "2026-01-07T09:30:00.000Z"
+    },
+    {
+      "id": 2,
+      "candidateId": 2,
+      "jobId": 4,
+      "stage": "Applied",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-01-15T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-01-15T09:30:00.000Z",
+      "updatedAt": "2026-01-15T09:30:00.000Z"
+    },
+    {
+      "id": 3,
+      "candidateId": 2,
+      "jobId": 7,
+      "stage": "Rejected",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-01-15T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-01-22T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Rejected",
+          "changedAt": "2026-01-29T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-01-15T09:30:00.000Z",
+      "updatedAt": "2026-01-29T09:30:00.000Z"
+    },
+    {
+      "id": 4,
+      "candidateId": 3,
+      "jobId": 3,
+      "stage": "Interview",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-01-23T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-01-30T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Interview",
+          "changedAt": "2026-02-06T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-01-23T09:30:00.000Z",
+      "updatedAt": "2026-02-06T09:30:00.000Z"
+    },
+    {
+      "id": 5,
+      "candidateId": 5,
+      "jobId": 5,
+      "stage": "Placed",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-02-08T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-02-15T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Interview",
+          "changedAt": "2026-02-22T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Offer",
+          "changedAt": "2026-03-01T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Placed",
+          "changedAt": "2026-03-08T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-02-08T09:30:00.000Z",
+      "updatedAt": "2026-03-08T09:30:00.000Z"
+    },
+    {
+      "id": 6,
+      "candidateId": 7,
+      "jobId": 2,
+      "stage": "Screening",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-02-24T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-03-03T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-02-24T09:30:00.000Z",
+      "updatedAt": "2026-03-03T09:30:00.000Z"
+    },
+    {
+      "id": 7,
+      "candidateId": 8,
+      "jobId": 3,
+      "stage": "Rejected",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-03-04T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-03-11T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Rejected",
+          "changedAt": "2026-03-18T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-03-04T09:30:00.000Z",
+      "updatedAt": "2026-03-18T09:30:00.000Z"
+    },
+    {
+      "id": 8,
+      "candidateId": 9,
+      "jobId": 4,
+      "stage": "Rejected",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-03-12T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-03-19T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Rejected",
+          "changedAt": "2026-03-26T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-03-12T09:30:00.000Z",
+      "updatedAt": "2026-03-26T09:30:00.000Z"
+    },
+    {
+      "id": 9,
+      "candidateId": 9,
+      "jobId": 7,
+      "stage": "Rejected",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-03-12T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-03-19T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Rejected",
+          "changedAt": "2026-03-26T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-03-12T09:30:00.000Z",
+      "updatedAt": "2026-03-26T09:30:00.000Z"
+    },
+    {
+      "id": 10,
+      "candidateId": 10,
+      "jobId": 5,
+      "stage": "Interview",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-03-20T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-03-27T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Interview",
+          "changedAt": "2026-04-03T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-03-20T09:30:00.000Z",
+      "updatedAt": "2026-04-03T09:30:00.000Z"
+    },
+    {
+      "id": 11,
+      "candidateId": 11,
+      "jobId": 1,
+      "stage": "Applied",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-03-28T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-03-28T09:30:00.000Z",
+      "updatedAt": "2026-03-28T09:30:00.000Z"
+    },
+    {
+      "id": 12,
+      "candidateId": 13,
+      "jobId": 3,
+      "stage": "Offer",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-04-13T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-04-20T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Interview",
+          "changedAt": "2026-04-27T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Offer",
+          "changedAt": "2026-05-04T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-04-13T09:30:00.000Z",
+      "updatedAt": "2026-05-04T09:30:00.000Z"
+    },
+    {
+      "id": 13,
+      "candidateId": 14,
+      "jobId": 4,
+      "stage": "Placed",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-04-21T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-04-28T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Interview",
+          "changedAt": "2026-05-05T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Offer",
+          "changedAt": "2026-05-12T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Placed",
+          "changedAt": "2026-05-19T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-04-21T09:30:00.000Z",
+      "updatedAt": "2026-05-19T09:30:00.000Z"
+    },
+    {
+      "id": 14,
+      "candidateId": 15,
+      "jobId": 5,
+      "stage": "Applied",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-04-29T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-04-29T09:30:00.000Z",
+      "updatedAt": "2026-04-29T09:30:00.000Z"
+    },
+    {
+      "id": 15,
+      "candidateId": 17,
+      "jobId": 2,
+      "stage": "Interview",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-05-15T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-05-22T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Interview",
+          "changedAt": "2026-05-29T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-05-15T09:30:00.000Z",
+      "updatedAt": "2026-05-29T09:30:00.000Z"
+    },
+    {
+      "id": 16,
+      "candidateId": 19,
+      "jobId": 4,
+      "stage": "Rejected",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-05-31T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-06-07T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Rejected",
+          "changedAt": "2026-06-14T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-05-31T09:30:00.000Z",
+      "updatedAt": "2026-06-14T09:30:00.000Z"
+    },
+    {
+      "id": 17,
+      "candidateId": 20,
+      "jobId": 2,
+      "stage": "Applied",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-06-08T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-06-08T09:30:00.000Z",
+      "updatedAt": "2026-06-08T09:30:00.000Z"
+    },
+    {
+      "id": 18,
+      "candidateId": 21,
+      "jobId": 1,
+      "stage": "Applied",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-06-16T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-06-16T09:30:00.000Z",
+      "updatedAt": "2026-06-16T09:30:00.000Z"
+    },
+    {
+      "id": 19,
+      "candidateId": 23,
+      "jobId": 3,
+      "stage": "Placed",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-07-02T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-07-09T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Interview",
+          "changedAt": "2026-07-16T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Offer",
+          "changedAt": "2026-07-23T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Placed",
+          "changedAt": "2026-07-30T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-07-02T09:30:00.000Z",
+      "updatedAt": "2026-07-30T09:30:00.000Z"
+    },
+    {
+      "id": 20,
+      "candidateId": 24,
+      "jobId": 4,
+      "stage": "Interview",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-07-10T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-07-17T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Interview",
+          "changedAt": "2026-07-24T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-07-10T09:30:00.000Z",
+      "updatedAt": "2026-07-24T09:30:00.000Z"
+    },
+    {
+      "id": 21,
+      "candidateId": 25,
+      "jobId": 5,
+      "stage": "Applied",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-07-18T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-07-18T09:30:00.000Z",
+      "updatedAt": "2026-07-18T09:30:00.000Z"
+    },
+    {
+      "id": 22,
+      "candidateId": 26,
+      "jobId": 3,
+      "stage": "Applied",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-07-26T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-07-26T09:30:00.000Z",
+      "updatedAt": "2026-07-26T09:30:00.000Z"
+    },
+    {
+      "id": 23,
+      "candidateId": 27,
+      "jobId": 2,
+      "stage": "Screening",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-08-03T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-08-10T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-08-03T09:30:00.000Z",
+      "updatedAt": "2026-08-10T09:30:00.000Z"
+    },
+    {
+      "id": 24,
+      "candidateId": 29,
+      "jobId": 4,
+      "stage": "Rejected",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-08-19T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-08-26T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        },
+        {
+          "stage": "Rejected",
+          "changedAt": "2026-09-02T09:30:00.000Z",
+          "changedBy": "Riley Recruiter"
+        }
+      ],
+      "createdAt": "2026-08-19T09:30:00.000Z",
+      "updatedAt": "2026-09-02T09:30:00.000Z"
+    },
+    {
+      "id": 25,
+      "candidateId": 30,
+      "jobId": 5,
+      "stage": "Rejected",
+      "history": [
+        {
+          "stage": "Applied",
+          "changedAt": "2026-08-27T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Screening",
+          "changedAt": "2026-09-03T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        },
+        {
+          "stage": "Rejected",
+          "changedAt": "2026-09-10T09:30:00.000Z",
+          "changedBy": "Robin Recruiter"
+        }
+      ],
+      "createdAt": "2026-08-27T09:30:00.000Z",
+      "updatedAt": "2026-09-10T09:30:00.000Z"
+    }
+  ],
+  "notes": [
+    {
+      "id": 1,
+      "candidateId": 1,
+      "text": "Strong communicator. Prefers hybrid roles within an hour of home.",
+      "authorId": 2,
+      "authorName": "Riley Recruiter",
+      "createdAt": "2026-09-01T14:15:00.000Z",
+      "updatedAt": "2026-09-01T14:15:00.000Z"
+    },
+    {
+      "id": 2,
+      "candidateId": 1,
+      "text": "Reference check completed. No concerns raised.",
+      "authorId": 1,
+      "authorName": "Alex Admin",
+      "createdAt": "2026-09-02T14:15:00.000Z",
+      "updatedAt": "2026-09-02T14:15:00.000Z"
+    },
+    {
+      "id": 3,
+      "candidateId": 2,
+      "text": "Asked for a call back next week about new openings.",
+      "authorId": 2,
+      "authorName": "Riley Recruiter",
+      "createdAt": "2026-09-03T14:15:00.000Z",
+      "updatedAt": "2026-09-03T14:15:00.000Z"
+    },
+    {
+      "id": 4,
+      "candidateId": 3,
+      "text": "First interview went well. Client wants a second stage.",
+      "authorId": 3,
+      "authorName": "Robin Recruiter",
+      "createdAt": "2026-09-04T14:15:00.000Z",
+      "updatedAt": "2026-09-04T14:15:00.000Z"
+    },
+    {
+      "id": 5,
+      "candidateId": 3,
+      "text": "Salary expectation is flexible for the right role.",
+      "authorId": 2,
+      "authorName": "Riley Recruiter",
+      "createdAt": "2026-09-05T14:15:00.000Z",
+      "updatedAt": "2026-09-05T14:15:00.000Z"
+    },
+    {
+      "id": 6,
+      "candidateId": 4,
+      "text": "Visa documents seen and copied to file.",
+      "authorId": 1,
+      "authorName": "Alex Admin",
+      "createdAt": "2026-09-06T14:15:00.000Z",
+      "updatedAt": "2026-09-06T14:15:00.000Z"
+    },
+    {
+      "id": 7,
+      "candidateId": 5,
+      "text": "Offer accepted. Start date agreed with the client.",
+      "authorId": 2,
+      "authorName": "Riley Recruiter",
+      "createdAt": "2026-09-07T14:15:00.000Z",
+      "updatedAt": "2026-09-07T14:15:00.000Z"
+    },
+    {
+      "id": 8,
+      "candidateId": 10,
+      "text": "Prepared interview brief and sent it by email.",
+      "authorId": 3,
+      "authorName": "Robin Recruiter",
+      "createdAt": "2026-09-08T14:15:00.000Z",
+      "updatedAt": "2026-09-08T14:15:00.000Z"
+    }
+  ]
+}

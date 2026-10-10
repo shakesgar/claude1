@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Candidates – Recruit Demo CRM</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header id="app-header" class="app-header"></header>
+<main id="main" class="container" tabindex="-1" data-testid="candidates-page">
+  <div id="flash" class="flash" role="status" data-testid="flash-message" hidden></div>
+  <div class="page-head">
+    <h1>Candidates</h1>
+    <a href="/candidates/new" class="button primary" data-testid="add-candidate-link">Add candidate</a>
+  </div>
+
+  <form id="filters" class="panel filters" role="search" aria-label="Filter candidates" data-testid="candidate-filters">
+    <div class="field">
+      <label for="search">Search by name</label>
+      <input id="search" name="search" type="search" data-testid="candidate-search-input">
+    </div>
+    <div class="field">
+      <label for="status">Status</label>
+      <select id="status" name="status" data-testid="candidate-status-filter">
+        <option value="">All statuses</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="skill">Skill</label>
+      <select id="skill" name="skill" data-testid="candidate-skill-filter">
+        <option value="">All skills</option>
+      </select>
+    </div>
+    <div class="actions">
+      <button type="submit" class="primary" data-testid="candidate-search-button">Search</button>
+      <button type="button" id="clear-filters" data-testid="candidate-clear-filters">Clear</button>
+    </div>
+  </form>
+
+  <p id="result-count" role="status" data-testid="candidate-result-count"></p>
+
+  <div class="table-wrap">
+    <table id="candidates-table" data-testid="candidates-table">
+      <caption class="sr-only">Candidates</caption>
+      <thead>
+        <tr>
+          <th scope="col" data-sort="name"><button type="button" class="sort" data-testid="sort-name">Name <span aria-hidden="true"></span></button></th>
+          <th scope="col" data-sort="email"><button type="button" class="sort" data-testid="sort-email">Email <span aria-hidden="true"></span></button></th>
+          <th scope="col" data-sort="location"><button type="button" class="sort" data-testid="sort-location">Location <span aria-hidden="true"></span></button></th>
+          <th scope="col">Skills</th>
+          <th scope="col" data-sort="salary"><button type="button" class="sort" data-testid="sort-salary">Expected salary <span aria-hidden="true"></span></button></th>
+          <th scope="col" data-sort="status"><button type="button" class="sort" data-testid="sort-status">Status <span aria-hidden="true"></span></button></th>
+          <th scope="col" data-sort="createdAt"><button type="button" class="sort" data-testid="sort-createdAt">Added <span aria-hidden="true"></span></button></th>
+        </tr>
+      </thead>
+      <tbody id="rows" data-testid="candidates-tbody"></tbody>
+    </table>
+    <p id="empty" class="empty" data-testid="candidates-empty" hidden>No candidates match your search.</p>
+  </div>
+
+  <nav id="pagination" class="pagination" aria-label="Pagination" data-testid="pagination" hidden>
+    <button type="button" id="prev-page" data-testid="pagination-prev">Previous</button>
+    <ul id="page-list"></ul>
+    <button type="button" id="next-page" data-testid="pagination-next">Next</button>
+    <span id="page-info" data-testid="pagination-info"></span>
+  </nav>
+</main>
+<script src="/js/validators.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/candidates.js"></script>
+</body>
+</html>

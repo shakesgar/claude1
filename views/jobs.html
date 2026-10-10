@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jobs – Recruit Demo CRM</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header id="app-header" class="app-header"></header>
+<main id="main" class="container" tabindex="-1" data-testid="jobs-page">
+  <div id="flash" class="flash" role="status" data-testid="flash-message" hidden></div>
+  <div class="page-head">
+    <h1>Jobs</h1>
+    <a href="/jobs/new" class="button primary" data-testid="add-job-link">Create job</a>
+  </div>
+
+  <form id="filters" class="panel filters" role="search" aria-label="Filter jobs" data-testid="job-filters">
+    <div class="field">
+      <label for="search">Search by title or client</label>
+      <input id="search" name="search" type="search" data-testid="job-search-input">
+    </div>
+    <div class="field">
+      <label for="status">Status</label>
+      <select id="status" name="status" data-testid="job-status-filter">
+        <option value="">All statuses</option>
+      </select>
+    </div>
+    <div class="actions">
+      <button type="submit" class="primary" data-testid="job-search-button">Search</button>
+      <button type="button" id="clear-filters" data-testid="job-clear-filters">Clear</button>
+    </div>
+  </form>
+
+  <p id="result-count" role="status" data-testid="job-result-count"></p>
+
+  <div class="table-wrap">
+    <table id="jobs-table" data-testid="jobs-table">
+      <caption class="sr-only">Jobs</caption>
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Client</th>
+          <th scope="col">Location</th>
+          <th scope="col">Salary range</th>
+          <th scope="col">Status</th>
+          <th scope="col">Candidates</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="rows" data-testid="jobs-tbody"></tbody>
+    </table>
+    <p id="empty" class="empty" data-testid="jobs-empty" hidden>No jobs match your search.</p>
+  </div>
+</main>
+<script src="/js/validators.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/jobs.js"></script>
+</body>
+</html>

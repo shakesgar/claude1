@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Add candidate – Recruit Demo CRM</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header id="app-header" class="app-header"></header>
+<main id="main" class="container" tabindex="-1" data-testid="candidate-form-page">
+  <div id="flash" class="flash" role="status" data-testid="flash-message" hidden></div>
+  <p><a href="/candidates" data-testid="back-to-candidates">← Back to candidates</a></p>
+  <h1 id="form-title" data-testid="form-title">Add candidate</h1>
+
+  <nav aria-label="Form progress">
+    <ol id="progress-steps" class="steps" data-testid="progress-steps">
+      <li data-step="1" data-testid="progress-step-1">1. Personal details</li>
+      <li data-step="2" data-testid="progress-step-2">2. Employment history</li>
+      <li data-step="3" data-testid="progress-step-3">3. Skills and salary</li>
+      <li data-step="4" data-testid="progress-step-4">4. Right to work and availability</li>
+      <li data-step="5" data-testid="progress-step-5">5. Review and submit</li>
+    </ol>
+  </nav>
+  <progress id="progress-bar" max="5" value="1" aria-label="Form progress" data-testid="progress-bar"></progress>
+  <p id="progress-text" aria-live="polite" data-testid="progress-text"></p>
+
+  <div id="error-summary" class="alert alert-error" role="alert" tabindex="-1" data-testid="error-summary" hidden></div>
+
+  <form id="candidate-form" novalidate data-testid="candidate-form">
+    <fieldset class="step" data-step="1" data-testid="step-personal">
+      <legend tabindex="-1">Personal details</legend>
+      <div class="grid">
+        <div class="field">
+          <label for="firstName">First name <span class="req" aria-hidden="true">*</span></label>
+          <input id="firstName" name="firstName" type="text" autocomplete="off" required aria-describedby="firstName-error" data-testid="input-firstName">
+          <p class="field-error" id="firstName-error" data-error-for="firstName" data-testid="error-firstName" hidden></p>
+        </div>
+        <div class="field">
+          <label for="lastName">Last name <span class="req" aria-hidden="true">*</span></label>
+          <input id="lastName" name="lastName" type="text" autocomplete="off" required aria-describedby="lastName-error" data-testid="input-lastName">
+          <p class="field-error" id="lastName-error" data-error-for="lastName" data-testid="error-lastName" hidden></p>
+        </div>
+        <div class="field">
+          <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+          <input id="email" name="email" type="email" autocomplete="off" required aria-describedby="email-error" data-testid="input-email">
+          <p class="field-error" id="email-error" data-error-for="email" data-testid="error-email" hidden></p>
+        </div>
+        <div class="field">
+          <label for="phone">Phone <span class="req" aria-hidden="true">*</span></label>
+          <input id="phone" name="phone" type="text" inputmode="tel" autocomplete="off" required aria-describedby="phone-hint phone-error" data-testid="input-phone">
+          <p class="hint" id="phone-hint">7 to 15 digits. Spaces, brackets, hyphens and a leading + are allowed.</p>
+          <p class="field-error" id="phone-error" data-error-for="phone" data-testid="error-phone" hidden></p>
+        </div>
+        <div class="field">
+          <label for="location">Location <span class="req" aria-hidden="true">*</span></label>
+          <input id="location" name="location" type="text" autocomplete="off" required aria-describedby="location-error" data-testid="input-location">
+          <p class="field-error" id="location-error" data-error-for="location" data-testid="error-location" hidden></p>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="step" data-step="2" data-testid="step-employment" hidden>
+      <legend tabindex="-1">Employment history</legend>
+      <p class="hint">Add each role, most recent first. At least one role is required.</p>
+      <p class="field-error" data-error-for="employmentHistory" data-testid="error-employmentHistory" hidden></p>
+      <div id="roles" data-testid="roles-list"></div>
+      <button type="button" id="add-role" data-testid="add-role-button">Add another role</button>
+    </fieldset>
+
+    <fieldset class="step" data-step="3" data-testid="step-skills" hidden>
+      <legend tabindex="-1">Skills and salary expectations</legend>
+      <fieldset class="plain" aria-describedby="skills-error" data-testid="skills-group">
+        <legend>Skills <span class="req" aria-hidden="true">*</span></legend>
+        <p class="hint">Select between 1 and 10 skills.</p>
+        <div id="skills-options" class="check-grid"></div>
+        <p class="field-error" id="skills-error" data-error-for="skills" data-testid="error-skills" hidden></p>
+      </fieldset>
+      <div class="grid">
+        <div class="field">
+          <label for="salaryMin">Minimum expected salary (£ per year) <span class="req" aria-hidden="true">*</span></label>
+          <input id="salaryMin" name="salaryMin" type="text" inputmode="numeric" required aria-describedby="salaryMin-error" data-testid="input-salaryMin">
+          <p class="field-error" id="salaryMin-error" data-error-for="salaryMin" data-testid="error-salaryMin" hidden></p>
+        </div>
+        <div class="field">
+          <label for="salaryMax">Maximum expected salary (£ per year) <span class="req" aria-hidden="true">*</span></label>
+          <input id="salaryMax" name="salaryMax" type="text" inputmode="numeric" required aria-describedby="salaryMax-error" data-testid="input-salaryMax">
+          <p class="field-error" id="salaryMax-error" data-error-for="salaryMax" data-testid="error-salaryMax" hidden></p>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="step" data-step="4" data-testid="step-right-to-work" hidden>
+      <legend tabindex="-1">Right to work and availability</legend>
+      <fieldset class="plain" aria-describedby="rightToWork-error" data-testid="right-to-work-group">
+        <legend>Right to work in the UK <span class="req" aria-hidden="true">*</span></legend>
+        <label class="check"><input type="radio" name="rightToWork" value="citizen" data-testid="input-rightToWork-citizen"> UK or Irish citizen</label>
+        <label class="check"><input type="radio" name="rightToWork" value="settled" data-testid="input-rightToWork-settled"> Settled or pre-settled status</label>
+        <label class="check"><input type="radio" name="rightToWork" value="visa" data-testid="input-rightToWork-visa"> Visa required</label>
+        <p class="field-error" id="rightToWork-error" data-error-for="rightToWork" data-testid="error-rightToWork" hidden></p>
+      </fieldset>
+      <div id="visa-fields" class="grid" data-testid="visa-fields" hidden>
+        <div class="field">
+          <label for="visaType">Visa type <span class="req" aria-hidden="true">*</span></label>
+          <input id="visaType" name="visaType" type="text" aria-describedby="visaType-error" data-testid="input-visaType">
+          <p class="field-error" id="visaType-error" data-error-for="visaType" data-testid="error-visaType" hidden></p>
+        </div>
+        <div class="field">
+          <label for="visaExpiry">Visa expiry date <span class="req" aria-hidden="true">*</span></label>
+          <input id="visaExpiry" name="visaExpiry" type="date" aria-describedby="visaExpiry-error" data-testid="input-visaExpiry">
+          <p class="field-error" id="visaExpiry-error" data-error-for="visaExpiry" data-testid="error-visaExpiry" hidden></p>
+        </div>
+      </div>
+
+      <fieldset class="plain" aria-describedby="availability-error" data-testid="availability-group">
+        <legend>Availability <span class="req" aria-hidden="true">*</span></legend>
+        <label class="check"><input type="radio" name="availability" value="immediate" data-testid="input-availability-immediate"> Immediately</label>
+        <label class="check"><input type="radio" name="availability" value="notice" data-testid="input-availability-notice"> After a notice period</label>
+        <label class="check"><input type="radio" name="availability" value="date" data-testid="input-availability-date"> From a specific date</label>
+        <p class="field-error" id="availability-error" data-error-for="availability" data-testid="error-availability" hidden></p>
+      </fieldset>
+      <div id="notice-fields" class="grid" data-testid="notice-fields" hidden>
+        <div class="field">
+          <label for="noticePeriodWeeks">Notice period (weeks) <span class="req" aria-hidden="true">*</span></label>
+          <input id="noticePeriodWeeks" name="noticePeriodWeeks" type="text" inputmode="numeric" aria-describedby="noticePeriodWeeks-error" data-testid="input-noticePeriodWeeks">
+          <p class="field-error" id="noticePeriodWeeks-error" data-error-for="noticePeriodWeeks" data-testid="error-noticePeriodWeeks" hidden></p>
+        </div>
+      </div>
+      <div id="date-fields" class="grid" data-testid="date-fields" hidden>
+        <div class="field">
+          <label for="availableFrom">Available from <span class="req" aria-hidden="true">*</span></label>
+          <input id="availableFrom" name="availableFrom" type="date" aria-describedby="availableFrom-error" data-testid="input-availableFrom">
+          <p class="field-error" id="availableFrom-error" data-error-for="availableFrom" data-testid="error-availableFrom" hidden></p>
+        </div>
+      </div>
+      <label class="check"><input type="checkbox" name="willingToRelocate" data-testid="input-willingToRelocate"> Willing to relocate</label>
+    </fieldset>
+
+    <fieldset class="step" data-step="5" data-testid="step-review" hidden>
+      <legend tabindex="-1">Review and submit</legend>
+      <div id="review" data-testid="review-summary"></div>
+      <label class="check"><input type="checkbox" name="confirm" aria-describedby="confirm-error" data-testid="input-confirm"> I confirm these details are correct</label>
+      <p class="field-error" id="confirm-error" data-error-for="confirm" data-testid="error-confirm" hidden></p>
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="button" id="back-button" data-testid="back-button">Back</button>
+      <button type="button" id="save-draft-button" data-testid="save-draft-button">Save as draft</button>
+      <span class="spacer"></span>
+      <button type="button" id="next-button" class="primary" data-testid="next-button">Next</button>
+      <button type="submit" id="submit-button" class="primary" data-testid="submit-button" hidden>Submit candidate</button>
+    </div>
+  </form>
+</main>
+<script src="/js/validators.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/candidate-form.js"></script>
+</body>
+</html>

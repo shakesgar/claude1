@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Job – Recruit Demo CRM</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header id="app-header" class="app-header"></header>
+<main id="main" class="container" tabindex="-1" data-testid="job-detail-page">
+  <div id="flash" class="flash" role="status" data-testid="flash-message" hidden></div>
+  <p><a href="/jobs" data-testid="back-to-jobs">← Back to jobs</a></p>
+  <div id="not-found" class="alert alert-error" role="alert" data-testid="job-not-found" hidden>Job not found.</div>
+
+  <div id="content" hidden>
+    <div class="page-head">
+      <div class="title-row">
+        <h1 id="job-title" data-testid="job-title"></h1>
+        <span id="status-badge"></span>
+      </div>
+      <div class="actions">
+        <a id="pipeline-link" href="/pipeline" class="button" data-testid="job-pipeline-link">View pipeline</a>
+        <a id="edit-link" href="#" class="button" data-testid="job-edit-link">Edit job</a>
+        <button type="button" id="delete-job" class="danger" data-testid="delete-job-button" hidden>Delete job</button>
+      </div>
+    </div>
+
+    <section class="panel" aria-labelledby="details-heading" data-testid="job-details-section">
+      <h2 id="details-heading">Details</h2>
+      <dl id="details" class="details"></dl>
+    </section>
+
+    <section class="panel" aria-labelledby="candidates-heading" data-testid="job-candidates-section">
+      <h2 id="candidates-heading">Assigned candidates (<span id="candidate-count" data-testid="job-candidate-count">0</span>)</h2>
+      <div class="table-wrap">
+        <table data-testid="job-candidates-table">
+          <caption class="sr-only">Candidates assigned to this job</caption>
+          <thead><tr><th scope="col">Candidate</th><th scope="col">Stage</th><th scope="col">Last updated</th></tr></thead>
+          <tbody id="applications"></tbody>
+        </table>
+        <p id="applications-empty" class="empty" data-testid="job-candidates-empty" hidden>No candidates assigned yet.</p>
+      </div>
+
+      <p id="assign-closed" class="alert alert-info" data-testid="assign-unavailable" style="margin-top: 1rem" hidden>Candidates can only be assigned while the job is open.</p>
+      <form id="assign-form" class="inline-form" novalidate data-testid="assign-candidate-form" style="margin-top: 1rem">
+        <div class="field">
+          <label for="assign-candidate">Assign a candidate</label>
+          <select id="assign-candidate" name="candidateId" aria-describedby="assign-error" data-testid="assign-candidate-select">
+            <option value="">Select a candidate</option>
+          </select>
+          <p class="field-error" id="assign-error" data-error-for="candidateId" data-testid="assign-candidate-error" hidden></p>
+        </div>
+        <button type="submit" class="primary" data-testid="assign-candidate-button">Assign</button>
+      </form>
+    </section>
+  </div>
+</main>
+<script src="/js/validators.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/job.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Users – Recruit Demo CRM</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header id="app-header" class="app-header"></header>
+<main id="main" class="container" tabindex="-1" data-testid="users-page">
+  <div id="flash" class="flash" role="status" data-testid="flash-message" hidden></div>
+  <div class="page-head">
+    <h1>Users</h1>
+  </div>
+  <p class="muted">Admins only. These are fake demo accounts.</p>
+  <p id="result-count" role="status" data-testid="user-result-count"></p>
+  <div class="table-wrap">
+    <table data-testid="users-table">
+      <caption class="sr-only">Users</caption>
+      <thead><tr><th scope="col">Name</th><th scope="col">Email</th><th scope="col">Role</th><th scope="col">Account</th></tr></thead>
+      <tbody id="rows" data-testid="users-tbody"></tbody>
+    </table>
+  </div>
+</main>
+<script src="/js/common.js"></script>
+<script src="/js/users.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Candidate – Recruit Demo CRM</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header id="app-header" class="app-header"></header>
+<main id="main" class="container" tabindex="-1" data-testid="candidate-profile-page">
+  <div id="flash" class="flash" role="status" data-testid="flash-message" hidden></div>
+  <p><a href="/candidates" data-testid="back-to-candidates">← Back to candidates</a></p>
+  <div id="not-found" class="alert alert-error" role="alert" data-testid="candidate-not-found" hidden>Candidate not found.</div>
+
+  <div id="profile" hidden>
+    <div class="page-head">
+      <div class="title-row">
+        <h1 id="candidate-name" data-testid="candidate-name"></h1>
+        <span id="status-badge"></span>
+      </div>
+      <button type="button" id="delete-candidate" class="danger" data-testid="delete-candidate-button" hidden>Delete candidate</button>
+    </div>
+    <div id="draft-banner" class="alert alert-info" data-testid="draft-banner" hidden>
+      This candidate is a draft and has not been submitted.
+      <a id="continue-draft" href="#" data-testid="continue-draft-link">Continue the intake form</a>
+    </div>
+
+    <section class="panel" aria-labelledby="details-heading" data-testid="details-section">
+      <h2 id="details-heading">Details</h2>
+      <dl id="details" class="details"></dl>
+    </section>
+
+    <div class="columns">
+      <section class="panel" aria-labelledby="employment-heading" data-testid="employment-section">
+        <h2 id="employment-heading">Employment history</h2>
+        <ul id="employment" class="plain-list" data-testid="employment-list"></ul>
+      </section>
+
+      <section class="panel" aria-labelledby="cv-heading" data-testid="cv-section">
+        <h2 id="cv-heading">CV</h2>
+        <div id="cv-current" data-testid="cv-current"></div>
+        <form id="cv-form" novalidate data-testid="cv-form">
+          <div class="field">
+            <label for="cv-file">Upload a CV</label>
+            <p class="hint" id="cv-hint">PDF or DOCX, 2MB maximum. Uploading replaces the current CV.</p>
+            <input id="cv-file" name="cv" type="file" accept=".pdf,.docx" aria-describedby="cv-hint cv-error" data-testid="cv-file-input">
+            <p class="field-error" id="cv-error" data-error-for="cv" data-testid="cv-error" hidden></p>
+          </div>
+          <button type="submit" data-testid="cv-upload-button">Upload CV</button>
+        </form>
+      </section>
+    </div>
+
+    <section class="panel" aria-labelledby="applications-heading" data-testid="applications-section" style="margin-top: 1.25rem">
+      <h2 id="applications-heading">Jobs</h2>
+      <div class="table-wrap">
+        <table data-testid="applications-table">
+          <caption class="sr-only">Jobs this candidate is assigned to</caption>
+          <thead><tr><th scope="col">Job</th><th scope="col">Client</th><th scope="col">Stage</th><th scope="col">Last updated</th></tr></thead>
+          <tbody id="applications"></tbody>
+        </table>
+        <p id="applications-empty" class="empty" data-testid="applications-empty" hidden>Not assigned to any jobs yet.</p>
+      </div>
+      <form id="assign-form" class="inline-form" novalidate data-testid="assign-job-form" style="margin-top: 1rem">
+        <div class="field">
+          <label for="assign-job">Assign to an open job</label>
+          <select id="assign-job" name="jobId" aria-describedby="assign-error" data-testid="assign-job-select">
+            <option value="">Select a job</option>
+          </select>
+          <p class="field-error" id="assign-error" data-error-for="jobId" data-testid="assign-job-error" hidden></p>
+        </div>
+        <button type="submit" class="primary" data-testid="assign-job-button">Assign</button>
+      </form>
+    </section>
+
+    <div class="columns">
+      <section class="panel" aria-labelledby="notes-heading" data-testid="notes-section">
+        <h2 id="notes-heading">Notes (<span id="notes-count" data-testid="notes-count">0</span>)</h2>
+        <form id="note-form" novalidate data-testid="note-form">
+          <div class="field">
+            <label for="note-text">Add a note</label>
+            <textarea id="note-text" name="text" rows="3" aria-describedby="note-error" data-testid="note-input"></textarea>
+            <p class="field-error" id="note-error" data-error-for="text" data-testid="note-error" hidden></p>
+          </div>
+          <button type="submit" class="primary" data-testid="note-add-button">Add note</button>
+        </form>
+        <ul id="notes" class="plain-list" data-testid="notes-list"></ul>
+        <p id="notes-empty" class="empty" data-testid="notes-empty" hidden>No notes yet.</p>
+      </section>
+
+      <section class="panel" aria-labelledby="status-heading" data-testid="status-section">
+        <h2 id="status-heading">Status</h2>
+        <form id="status-form" class="inline-form" novalidate data-testid="status-form">
+          <div class="field">
+            <label for="status-select">Change status</label>
+            <select id="status-select" name="status" aria-describedby="status-error" data-testid="status-select"></select>
+            <p class="field-error" id="status-error" data-error-for="status" data-testid="status-error" hidden></p>
+          </div>
+          <button type="submit" data-testid="status-update-button">Update status</button>
+        </form>
+        <h3>Status history</h3>
+        <div class="table-wrap">
+          <table data-testid="status-history-table">
+            <caption class="sr-only">Status history, newest first</caption>
+            <thead><tr><th scope="col">Status</th><th scope="col">Changed</th><th scope="col">Changed by</th></tr></thead>
+            <tbody id="status-history"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+<script src="/js/validators.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/candidate.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log in – Recruit Demo CRM</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<main id="main" class="login-box" data-testid="login-page">
+  <div class="panel">
+    <h1>Recruit Demo CRM</h1>
+    <p class="muted">Demo app with fake data for practising test automation.</p>
+    <div id="login-error" class="alert alert-error" role="alert" data-testid="login-error" hidden></div>
+    <form id="login-form" novalidate data-testid="login-form">
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="username" required aria-describedby="email-error" data-testid="login-email">
+        <p class="field-error" id="email-error" data-error-for="email" data-testid="login-email-error" hidden></p>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required aria-describedby="password-error" data-testid="login-password">
+        <p class="field-error" id="password-error" data-error-for="password" data-testid="login-password-error" hidden></p>
+      </div>
+      <button type="submit" class="primary" data-testid="login-submit">Log in</button>
+    </form>
+  </div>
+</main>
+<script src="/js/validators.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/login.js"></script>
+</body>
+</html>

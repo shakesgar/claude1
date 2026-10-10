@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Job – Recruit Demo CRM</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header id="app-header" class="app-header"></header>
+<main id="main" class="container" tabindex="-1" data-testid="job-form-page">
+  <div id="flash" class="flash" role="status" data-testid="flash-message" hidden></div>
+  <p><a href="/jobs" data-testid="back-to-jobs">← Back to jobs</a></p>
+  <div id="not-found" class="alert alert-error" role="alert" data-testid="job-not-found" hidden>Job not found.</div>
+
+  <div id="content">
+    <h1 id="form-title" data-testid="form-title">Create job</h1>
+    <div id="error-summary" class="alert alert-error" role="alert" tabindex="-1" data-testid="error-summary" hidden></div>
+
+    <form id="job-form" class="panel" novalidate data-testid="job-form">
+      <div class="grid">
+        <div class="field">
+          <label for="title">Job title <span class="req" aria-hidden="true">*</span></label>
+          <input id="title" name="title" type="text" required aria-describedby="title-error" data-testid="input-title">
+          <p class="field-error" id="title-error" data-error-for="title" data-testid="error-title" hidden></p>
+        </div>
+        <div class="field">
+          <label for="client">Client <span class="req" aria-hidden="true">*</span></label>
+          <input id="client" name="client" type="text" required aria-describedby="client-error" data-testid="input-client">
+          <p class="field-error" id="client-error" data-error-for="client" data-testid="error-client" hidden></p>
+        </div>
+        <div class="field">
+          <label for="location">Location</label>
+          <input id="location" name="location" type="text" aria-describedby="location-error" data-testid="input-location">
+          <p class="field-error" id="location-error" data-error-for="location" data-testid="error-location" hidden></p>
+        </div>
+        <div class="field">
+          <label for="status">Status <span class="req" aria-hidden="true">*</span></label>
+          <select id="status" name="status" required aria-describedby="status-error" data-testid="input-status">
+            <option value="">Select a status</option>
+          </select>
+          <p class="field-error" id="status-error" data-error-for="status" data-testid="error-status" hidden></p>
+        </div>
+        <div class="field">
+          <label for="salaryMin">Minimum salary (£ per year) <span class="req" aria-hidden="true">*</span></label>
+          <input id="salaryMin" name="salaryMin" type="text" inputmode="numeric" required aria-describedby="salaryMin-error" data-testid="input-salaryMin">
+          <p class="field-error" id="salaryMin-error" data-error-for="salaryMin" data-testid="error-salaryMin" hidden></p>
+        </div>
+        <div class="field">
+          <label for="salaryMax">Maximum salary (£ per year) <span class="req" aria-hidden="true">*</span></label>
+          <input id="salaryMax" name="salaryMax" type="text" inputmode="numeric" required aria-describedby="salaryMax-error" data-testid="input-salaryMax">
+          <p class="field-error" id="salaryMax-error" data-error-for="salaryMax" data-testid="error-salaryMax" hidden></p>
+        </div>
+      </div>
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="4" aria-describedby="description-error" data-testid="input-description"></textarea>
+        <p class="field-error" id="description-error" data-error-for="description" data-testid="error-description" hidden></p>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="primary" data-testid="job-save-button">Save job</button>
+        <a id="cancel-link" href="/jobs" class="button" data-testid="job-cancel-link">Cancel</a>
+      </div>
+    </form>
+  </div>
+</main>
+<script src="/js/validators.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/job-form.js"></script>
+</body>
+</html>

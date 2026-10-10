@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pipeline – Recruit Demo CRM</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header id="app-header" class="app-header"></header>
+<main id="main" class="container" tabindex="-1" data-testid="pipeline-page">
+  <div id="flash" class="flash" role="status" data-testid="flash-message" hidden></div>
+  <div class="page-head">
+    <h1>Pipeline</h1>
+  </div>
+
+  <form id="filters" class="panel filters" aria-label="Filter pipeline" data-testid="pipeline-filters">
+    <div class="field">
+      <label for="job-filter">Job</label>
+      <select id="job-filter" name="jobId" data-testid="pipeline-job-filter">
+        <option value="">All jobs</option>
+      </select>
+    </div>
+  </form>
+
+  <p id="result-count" role="status" data-testid="pipeline-result-count"></p>
+  <div id="board" class="board" data-testid="pipeline-board"></div>
+</main>
+<script src="/js/validators.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/pipeline.js"></script>
+</body>
+</html>
