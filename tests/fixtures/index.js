@@ -8,7 +8,7 @@ const { CandidateProfilePage } = require('../pages/candidate-profile-page')
 const { JobsPage } = require('../pages/jobs-page')
 const { PipelinePage } = require('../pages/pipeline-page')
 const { NavBar } = require('../components/nav-bar')
-const { loadTestSettings } = require('../../config/testSettings')
+const { loadTestSettings, assertResetAllowed } = require('../../config/testSettings')
 
 const settings = loadTestSettings()
 
@@ -46,7 +46,8 @@ const test = base.extend({
   },
 
   // Restores the seed data before every test, so tests never depend on each other
-  resetData: [async ({ request }, use) => {
+  resetData: [async ({ request, baseURL }, use) => {
+    assertResetAllowed(baseURL, settings.allowRemoteReset)
     const response = await request.post('/api/test/reset')
     expect(response.ok(), 'POST /api/test/reset failed: is the app running in test mode?').toBeTruthy()
     await use()

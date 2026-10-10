@@ -10,7 +10,7 @@ npx playwright install      # first time only: downloads Chromium, Firefox and W
 npm test
 ```
 
-Playwright starts the app itself in test mode on port 3000 and stops it afterwards. If something is already running on port 3000 it is reused, so stop any server you started with `npm start` first: tests need test mode for `POST /api/test/reset`, and the global setup fails with a clear message if it is missing.
+Playwright starts the app itself in test mode on port 3000 (the port in the `baseURL` setting) and stops it afterwards. If something is already running on that port it is reused, so stop any server you started with `npm start` first: tests need test mode for `POST /api/test/reset`, and the global setup fails with a clear message if it is missing.
 
 | Command               | What it does                                             |
 |-----------------------|----------------------------------------------------------|
@@ -31,7 +31,7 @@ npx playwright test -g "validates the email"    # by test title
 npx playwright test --debug                     # step through with the inspector
 ```
 
-To test an app that is already running elsewhere, set `BASE_URL`. Playwright then does not start a server, and the app at that address must be in test mode:
+To run on another port or against a site that is already running elsewhere, change `baseURL` in `testsettings.json` or set `BASE_URL` for one run (see [baseURL](#baseurl)):
 
 ```
 BASE_URL=http://localhost:4000 npx playwright test          # macOS/Linux
@@ -48,7 +48,9 @@ $env:BASE_URL='http://localhost:4000'; npx playwright test  # PowerShell
   "slowMo": 0,
   "pageZoom": 100,
   "maximized": false,
-  "browser": "all"
+  "browser": "all",
+  "baseURL": "http://localhost:3000",
+  "allowRemoteReset": false
 }
 ```
 
@@ -59,10 +61,12 @@ $env:BASE_URL='http://localhost:4000'; npx playwright test  # PowerShell
 | `pageZoom` | whole number, 1 to 100    | `100`   | Shrinks every page to this percentage with CSS zoom. `100` is normal size.                    |
 | `maximized` | boolean                  | `false` | `true` opens the Chromium window maximised, with the page filling it. Headed runs only.       |
 | `browser`  | one of `chromium`, `firefox`, `webkit`, `chrome`, `msedge`, `all` | `all` | Which browser the UI tests run in. `all` runs Chromium, Firefox and WebKit. |
+| `baseURL`  | full `http://` or `https://` URL | `http://localhost:3000` | The site the tests run against.                                     |
+| `allowRemoteReset` | boolean           | `false` | `true` lets the tests wipe the data of a site that is not on this machine.                    |
 
 The file is committed, and CI runs with the committed values. Keep the defaults shown above there; change them locally to watch or debug a run, and do not commit those changes.
 
-Four settings can also be set for a single run with an environment variable, which takes priority over the file: `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED` (`true` or `false`) and `BROWSER`. An empty variable is ignored. Playwright has no command-line flag for the first three, so their order of priority is environment variable, then `testsettings.json`, then the default in `config/testSettings.js`. `browser` also has a command-line flag, described below.
+Five settings can also be set for a single run with an environment variable, which takes priority over the file: `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED` (`true` or `false`), `BROWSER` and `BASE_URL`. An empty variable is ignored. For all but `browser`, the order of priority is environment variable, then `testsettings.json`, then the default in `config/testSettings.js`; Playwright has no command-line flag for them. `browser` also has a command-line flag, described below.
 
 ### headless
 
@@ -171,20 +175,55 @@ The other settings work with every choice. `maximized` applies to `chromium`, `c
 
 Keep `"browser": "all"` in the committed file: CI runs with it, so committing a single browser would cut what CI covers.
 
+### baseURL
+
+`baseURL` is the site the tests run against. Every page object, fixture, API helper and the global setup take the address from it; none contains an address of its own.
+
+Valid values are full URLs that start with `http://` or `https://`, such as `http://localhost:3000` or `https://crm-test.example.com`. A trailing slash is removed. `localhost:3000` (no protocol) and `ftp://x` are rejected. Do not add a path: the tests open pages such as `/login` from the root of the site.
+
+What happens depends on the host:
+
+| `baseURL` host               | Web server                                                                 |
+|------------------------------|----------------------------------------------------------------------------|
+| `localhost` or `127.0.0.1`   | Playwright starts the demo app in test mode on the port in the URL (it sets `PORT` for the app), and stops it afterwards. Outside CI, an app already running at that address is reused. |
+| anything else                | Nothing is started. One line says the tests will run against the existing site, which must already be running in test mode. |
+
+The demo app only serves `http`, so use `http://` for local addresses.
+
+The order of priority is:
+
+1. **The `BASE_URL` environment variable.**
+2. **`testsettings.json`.**
+3. **The default**, `http://localhost:3000`, in `config/testSettings.js`.
+
+If the site cannot be reached, the run stops before any test with `Could not reach <baseURL>` and the reason.
+
+### allowRemoteReset
+
+The suite calls `POST /api/test/reset` before every test and once at the start of the run. **That call replaces all of the site's data with the seed data.** On your own machine that is what you want. On a shared environment it would wipe other people's work.
+
+So when the `baseURL` host is not `localhost` or `127.0.0.1`, the reset step refuses to run and the whole run stops before anything is sent:
+
+```
+Refusing to reset the data at https://crm-test.example.com: POST /api/test/reset wipes the site's data and this is not localhost or 127.0.0.1. If that site is yours to wipe, set "allowRemoteReset": true in testsettings.json.
+```
+
+Set `"allowRemoteReset": true` only for a site whose data the tests are allowed to wipe. It has no environment variable on purpose, and it should stay `false` in the committed file. It has no effect for local addresses.
+
 ### How the settings are checked
 
 - If the file is missing, the defaults are used and one line says so.
 - If the file is not valid JSON, is not a JSON object, contains a setting that does not exist (such as a misspelt `"headles"`), or has an invalid value (such as `"slowMo": -1` or `"slowMo": "1000"`), the run stops with an error that names the file, the setting and the value.
-- If `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED` or `BROWSER` holds an invalid value, the run stops with an error that names the environment variable.
+- If `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED`, `BROWSER` or `BASE_URL` holds an invalid value, the run stops with an error that names the environment variable.
 
-The API tests use no browser and ignore all five settings.
+The API tests use no browser, so of these settings only `baseURL` and `allowRemoteReset` affect them.
 
 To add a setting, add one line to the `SETTINGS` table in `config/testSettings.js` (and to `ENV_OVERRIDES` if it should have an environment variable), use it in `playwright.config.js` or `tests/fixtures/index.js`, and add a row to the table above.
 
 ## Structure
 
 ```
-testsettings.json           run settings: headless, slowMo, pageZoom, maximized, browser (see above)
+testsettings.json           run settings: headless, browser, baseURL and others (see above)
 config/testSettings.js      loads and validates testsettings.json
 playwright.config.js        projects, web server, retries, reporters
 tests/

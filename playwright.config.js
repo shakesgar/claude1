@@ -1,6 +1,6 @@
 const path = require('path')
 const { defineConfig, devices } = require('@playwright/test')
-const { loadTestSettings, isWorker } = require('./config/testSettings')
+const { loadTestSettings, isLocalURL, isWorker } = require('./config/testSettings')
 
 // Run settings a person can edit without touching this file (see TESTING.md).
 // Command-line flags such as --headed and environment variables such as SLOWMO take priority over them.
@@ -45,9 +45,15 @@ function selectedBrowsers() {
   return settings.browser === 'all' ? ['chromium', 'firefox', 'webkit'] : [settings.browser]
 }
 
-// Set BASE_URL to test an app that is already running (it must be in test mode).
-// Without it, Playwright starts the app itself on port 3000.
-const baseURL = process.env.BASE_URL || 'http://localhost:3000'
+// The site under test. When it is on this machine Playwright starts the demo app on the port in the URL,
+// so the app and the tests always agree. Anywhere else, the site must already be running in test mode.
+const { baseURL } = settings
+const target = new URL(baseURL)
+const startApp = isLocalURL(baseURL)
+const port = target.port || (target.protocol === 'https:' ? '443' : '80')
+if (!startApp && !isWorker) {
+  console.log(`testsettings: running against the existing site at ${baseURL}, no local app is started`)
+}
 const isCI = !!process.env.CI
 
 // API specs need no browser, so they run once in their own project
@@ -83,12 +89,12 @@ module.exports = defineConfig({
     { name: 'api', testMatch: API_SPECS }
   ],
 
-  webServer: process.env.BASE_URL
+  webServer: !startApp
     ? undefined
     : {
         command: 'node server.js',
         url: `${baseURL}/login`,
-        env: { NODE_ENV: 'test', PORT: '3000' },
+        env: { NODE_ENV: 'test', PORT: port },
         reuseExistingServer: !isCI,
         timeout: 30_000
       }
