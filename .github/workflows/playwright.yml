@@ -25,10 +25,12 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # CI=true is set by GitHub Actions; the config uses it to enable retries
-      # and to start a fresh app server in test mode
+      # CI=true is set by GitHub Actions; the config uses it to start a fresh app server in test mode.
+      # RETRIES overrides "retries" in testsettings.json, which is 0 for local runs.
       - name: Run Playwright tests
         run: npx playwright test
+        env:
+          RETRIES: 2
 
       - name: Upload HTML report
         if: ${{ !cancelled() }}

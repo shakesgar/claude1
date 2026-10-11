@@ -1,10 +1,10 @@
 const path = require('path')
 const { defineConfig, devices } = require('@playwright/test')
-const { loadTestSettings, isLocalURL, isWorker } = require('./config/testSettings')
+const { loadTestSettingsWithSources, isLocalURL, isWorker } = require('./config/testSettings')
 
 // Run settings a person can edit without touching this file (see TESTING.md).
 // Command-line flags such as --headed and environment variables such as SLOWMO take priority over them.
-const settings = loadTestSettings(path.join(__dirname, 'testsettings.json'))
+const { settings, provided } = loadTestSettingsWithSources(path.join(__dirname, 'testsettings.json'))
 
 const launchOptions = { slowMo: settings.slowMo }
 
@@ -56,6 +56,10 @@ if (!startApp && !isWorker) {
 }
 const isCI = !!process.env.CI
 
+// Retries come from the "retries" setting. Only when nobody set it (not in testsettings.json, no RETRIES
+// variable) does CI fall back to 2, so one intermittent failure does not fail a build by default.
+const retries = !provided.has('retries') && isCI ? 2 : settings.retries
+
 // API specs need no browser, so they run once in their own project
 const API_SPECS = /api[\\/].*\.spec\.js$/
 
@@ -70,7 +74,7 @@ module.exports = defineConfig({
   workers: 1,
 
   forbidOnly: isCI,
-  retries: isCI ? 2 : 0,
+  retries,
   reporter: isCI
     ? [['html', { open: 'never' }], ['github']]
     : [['html', { open: 'never' }], ['list']],

@@ -26,6 +26,7 @@ const SETTINGS = {
   pageZoom: { default: 100, isValid: (value) => Number.isInteger(value) && value >= 1 && value <= 100, expects: 'a whole number from 1 to 100' },
   maximized: { default: false, isValid: (value) => typeof value === 'boolean', expects: 'a boolean' },
   browser: { default: 'all', isValid: (value) => BROWSERS.includes(value), expects: `one of ${BROWSERS.join(', ')}` },
+  retries: { default: 0, isValid: (value) => Number.isInteger(value) && value >= 0 && value <= 5, expects: 'a whole number from 0 to 5' },
   baseURL: {
     default: 'http://localhost:3000',
     isValid: isHttpURL,
@@ -46,6 +47,7 @@ const ENV_OVERRIDES = {
   pageZoom: { variable: 'PAGE_ZOOM', parse: parseWholeNumber },
   maximized: { variable: 'MAXIMIZED', parse: parseBoolean },
   browser: { variable: 'BROWSER', parse: (text) => text.trim() },
+  retries: { variable: 'RETRIES', parse: parseWholeNumber },
   baseURL: { variable: 'BASE_URL', parse: (text) => text.trim() }
 }
 
@@ -57,11 +59,18 @@ const isWorker = process.env.TEST_WORKER_INDEX !== undefined
 // Returns the defaults, overridden by the settings file, overridden by environment variables.
 // A missing file is fine; a file that cannot be used stops the run with an error naming the file.
 function loadTestSettings(filePath = DEFAULT_PATH) {
-  const settings = { ...readSettingsFile(filePath), ...readEnvOverrides() }
+  return loadTestSettingsWithSources(filePath).settings
+}
+
+// The same settings, plus the names of those set in the file or by an environment variable.
+// A setting that is not in `provided` is at its built-in default.
+function loadTestSettingsWithSources(filePath = DEFAULT_PATH) {
+  const given = { ...readSettingsFile(filePath), ...readEnvOverrides() }
+  const settings = { ...DEFAULTS, ...given }
   for (const [name, { clean }] of Object.entries(SETTINGS)) {
     if (clean) settings[name] = clean(settings[name])
   }
-  return settings
+  return { settings, provided: new Set(Object.keys(given)) }
 }
 
 // True when the URL points at this machine, where the tests start and own the app
@@ -102,7 +111,7 @@ function readSettingsFile(filePath) {
   } catch (err) {
     if (err.code !== 'ENOENT') throw new Error(`${file}: could not be read (${err.message})`)
     if (!isWorker) console.log(`${file} not found, using defaults: ${JSON.stringify(DEFAULTS)}`)
-    return { ...DEFAULTS }
+    return {}
   }
 
   let values
@@ -125,7 +134,7 @@ function readSettingsFile(filePath) {
     }
   }
 
-  return { ...DEFAULTS, ...values }
+  return values
 }
 
-module.exports = { loadTestSettings, isLocalURL, assertResetAllowed, DEFAULTS, isWorker }
+module.exports = { loadTestSettings, loadTestSettingsWithSources, isLocalURL, assertResetAllowed, DEFAULTS, isWorker }

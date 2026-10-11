@@ -49,6 +49,7 @@ $env:BASE_URL='http://localhost:4000'; npx playwright test  # PowerShell
   "pageZoom": 100,
   "maximized": false,
   "browser": "all",
+  "retries": 0,
   "baseURL": "http://localhost:3000",
   "allowRemoteReset": false
 }
@@ -61,12 +62,13 @@ $env:BASE_URL='http://localhost:4000'; npx playwright test  # PowerShell
 | `pageZoom` | whole number, 1 to 100    | `100`   | Shrinks every page to this percentage with CSS zoom. `100` is normal size.                    |
 | `maximized` | boolean                  | `false` | `true` opens the Chromium window maximised, with the page filling it. Headed runs only.       |
 | `browser`  | one of `chromium`, `firefox`, `webkit`, `chrome`, `msedge`, `all` | `all` | Which browser the UI tests run in. `all` runs Chromium, Firefox and WebKit. |
+| `retries`  | whole number, 0 to 5      | `0`     | How many times a failed test is run again before it counts as failed.                         |
 | `baseURL`  | full `http://` or `https://` URL | `http://localhost:3000` | The site the tests run against.                                     |
 | `allowRemoteReset` | boolean           | `false` | `true` lets the tests wipe the data of a site that is not on this machine.                    |
 
 The file is committed, and CI runs with the committed values. Keep the defaults shown above there; change them locally to watch or debug a run, and do not commit those changes.
 
-Five settings can also be set for a single run with an environment variable, which takes priority over the file: `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED` (`true` or `false`), `BROWSER` and `BASE_URL`. An empty variable is ignored. For all but `browser`, the order of priority is environment variable, then `testsettings.json`, then the default in `config/testSettings.js`; Playwright has no command-line flag for them. `browser` also has a command-line flag, described below.
+Six settings can also be set for a single run with an environment variable, which takes priority over the file: `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED` (`true` or `false`), `BROWSER`, `RETRIES` and `BASE_URL`. An empty variable is ignored. For most settings the order of priority is environment variable, then `testsettings.json`, then the default in `config/testSettings.js`; Playwright has no command-line flag for them. `browser` and `retries` also have a command-line flag, described below.
 
 ### headless
 
@@ -175,6 +177,36 @@ The other settings work with every choice. `maximized` applies to `chromium`, `c
 
 Keep `"browser": "all"` in the committed file: CI runs with it, so committing a single browser would cut what CI covers.
 
+### retries
+
+`retries` is how many times Playwright runs a failed test again. With `0` a test that fails once is reported as failed. With `1` or more, a test that fails and then passes is reported as **flaky**, and the run still succeeds.
+
+Valid values are whole numbers from `0` to `5`. The default is `0`.
+
+The order of priority is:
+
+1. **The `--retries` command-line flag**, for example `npx playwright test --retries=2`.
+2. **The `RETRIES` environment variable.**
+3. **`testsettings.json`.**
+4. **The default**, `0`. The one exception: when the `CI` environment variable is set and `retries` was not provided at all (no `retries` line in the file, or no file, and no `RETRIES` variable), the default is `2`.
+
+A `retries` line in the file counts as provided even when it says `0`, so the committed `"retries": 0` would switch retries off in CI. The GitHub Actions workflow therefore sets `RETRIES: 2` itself; change CI's retries there, not in the file.
+
+```
+RETRIES=1 npx playwright test          # macOS/Linux
+$env:RETRIES='1'; npx playwright test  # PowerShell
+```
+
+**Retries can hide real bugs.** A test that passes on its second attempt has still failed once, and the cause may be a genuine intermittent fault in the app, such as a race condition, as easily as a weakness in the test. Treat every flaky test as a failure to investigate and fix. Retries are there to keep a build usable while you do that, not to make the problem go away. To make flaky tests fail the run, add `--fail-on-flaky-tests`.
+
+#### Finding flaky tests
+
+- **Console:** the summary at the end of a run has its own count, for example `1 flaky`, listed with the test's name and the error from the failed attempt. During the run, the list shows the failed attempt and then the same test again marked `(retry #1)`.
+- **HTML report:** `npm run report`, then use the **Flaky** filter at the top. Opening a flaky test shows one tab per attempt, with the error and screenshot from the failed one and the trace from the retry.
+- **GitHub Actions:** the run summary has a "Playwright Run Summary" notice that lists flaky tests, and the `playwright-report` artifact holds the HTML report. A run with only flaky tests is green, so look at the notice, not just the tick.
+
+Traces are recorded on the first retry only (`trace: 'on-first-retry'`). With `retries` at `0` there is no retry, so a failed test has a screenshot but no trace; see [When a test fails](#when-a-test-fails).
+
 ### baseURL
 
 `baseURL` is the site the tests run against. Every page object, fixture, API helper and the global setup take the address from it; none contains an address of its own.
@@ -214,9 +246,9 @@ Set `"allowRemoteReset": true` only for a site whose data the tests are allowed 
 
 - If the file is missing, the defaults are used and one line says so.
 - If the file is not valid JSON, is not a JSON object, contains a setting that does not exist (such as a misspelt `"headles"`), or has an invalid value (such as `"slowMo": -1` or `"slowMo": "1000"`), the run stops with an error that names the file, the setting and the value.
-- If `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED`, `BROWSER` or `BASE_URL` holds an invalid value, the run stops with an error that names the environment variable.
+- If `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED`, `BROWSER`, `RETRIES` or `BASE_URL` holds an invalid value, the run stops with an error that names the environment variable.
 
-The API tests use no browser, so of these settings only `baseURL` and `allowRemoteReset` affect them.
+The API tests use no browser, so of these settings only `retries`, `baseURL` and `allowRemoteReset` affect them.
 
 To add a setting, add one line to the `SETTINGS` table in `config/testSettings.js` (and to `ENV_OVERRIDES` if it should have an environment variable), use it in `playwright.config.js` or `tests/fixtures/index.js`, and add a row to the table above.
 
@@ -406,9 +438,9 @@ API-only tests go in `tests/specs/api/` with a name ending `.api.spec.js`; they 
 ## When a test fails
 
 - `npm run report` opens the HTML report, with a screenshot for every failed test.
-- Traces are recorded on the first retry. Retries are on in CI only, so to get a trace locally run `npx playwright test --trace on` and open it from the report.
+- Traces are recorded on the first retry. Local runs have `retries` at `0` by default, so to get a trace locally run `npx playwright test --trace on` (or `--retries=1`) and open it from the report.
 - `npx playwright test --debug -g "test title"` steps through one test.
 
 ## Continuous integration
 
-`.github/workflows/playwright.yml` runs the full suite on every push and pull request to `main` or `master`. In CI the config retries failed tests twice, forbids `test.only`, and always starts a fresh server. The HTML report is uploaded as the `playwright-report` artifact; traces and screenshots are uploaded as `test-results` when a run fails.
+`.github/workflows/playwright.yml` runs the full suite on every push and pull request to `main` or `master`. The workflow sets `RETRIES: 2`, so failed tests are retried twice (see [retries](#retries)). In CI the config also forbids `test.only` and always starts a fresh server. The HTML report is uploaded as the `playwright-report` artifact; traces and screenshots are uploaded as `test-results` when a run fails.
