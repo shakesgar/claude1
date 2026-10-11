@@ -60,6 +60,19 @@ const isCI = !!process.env.CI
 // variable) does CI fall back to 2, so one intermittent failure does not fail a build by default.
 const retries = !provided.has('retries') && isCI ? 2 : settings.retries
 
+// More than one worker is allowed but not yet safe: see "workers" in TESTING.md
+// The --workers (or -j) flag overrides the setting, so the warning has to look at it too
+function workersFromFlag() {
+  const index = process.argv.findIndex((arg) => /^(--workers|-j)(=|$)/.test(arg))
+  if (index === -1) return undefined
+  const arg = process.argv[index]
+  return arg.includes('=') ? arg.split('=')[1] : process.argv[index + 1]
+}
+const effectiveWorkers = workersFromFlag() ?? String(settings.workers)
+if (effectiveWorkers !== '1' && !isWorker) {
+  console.warn('testsettings: this suite has not been verified for parallel runs; with more than 1 worker, tests can wipe the data of other tests')
+}
+
 // API specs need no browser, so they run once in their own project
 const API_SPECS = /api[\\/].*\.spec\.js$/
 
@@ -68,10 +81,10 @@ module.exports = defineConfig({
   globalSetup: require.resolve('./tests/global-setup'),
   outputDir: 'test-results',
 
-  // The app keeps one in-memory data set and every test resets it,
-  // so tests must not run at the same time against the same server.
+  // The app keeps one in-memory data set and every test resets it, so tests must not run at the
+  // same time against the same server. The "workers" setting defaults to 1 for that reason.
   fullyParallel: false,
-  workers: 1,
+  workers: settings.workers,
 
   forbidOnly: isCI,
   retries,

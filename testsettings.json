@@ -5,6 +5,7 @@
   "maximized": false,
   "browser": "all",
   "retries": 0,
+  "workers": 1,
   "baseURL": "http://localhost:3000",
   "allowRemoteReset": false
 }

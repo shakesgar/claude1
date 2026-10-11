@@ -50,6 +50,7 @@ $env:BASE_URL='http://localhost:4000'; npx playwright test  # PowerShell
   "maximized": false,
   "browser": "all",
   "retries": 0,
+  "workers": 1,
   "baseURL": "http://localhost:3000",
   "allowRemoteReset": false
 }
@@ -63,12 +64,13 @@ $env:BASE_URL='http://localhost:4000'; npx playwright test  # PowerShell
 | `maximized` | boolean                  | `false` | `true` opens the Chromium window maximised, with the page filling it. Headed runs only.       |
 | `browser`  | one of `chromium`, `firefox`, `webkit`, `chrome`, `msedge`, `all` | `all` | Which browser the UI tests run in. `all` runs Chromium, Firefox and WebKit. |
 | `retries`  | whole number, 0 to 5      | `0`     | How many times a failed test is run again before it counts as failed.                         |
+| `workers`  | whole number, 1 to 8      | `1`     | How many spec files run at the same time. Leave at `1`: see [workers](#workers).               |
 | `baseURL`  | full `http://` or `https://` URL | `http://localhost:3000` | The site the tests run against.                                     |
 | `allowRemoteReset` | boolean           | `false` | `true` lets the tests wipe the data of a site that is not on this machine.                    |
 
 The file is committed, and CI runs with the committed values. Keep the defaults shown above there; change them locally to watch or debug a run, and do not commit those changes.
 
-Six settings can also be set for a single run with an environment variable, which takes priority over the file: `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED` (`true` or `false`), `BROWSER`, `RETRIES` and `BASE_URL`. An empty variable is ignored. For most settings the order of priority is environment variable, then `testsettings.json`, then the default in `config/testSettings.js`; Playwright has no command-line flag for them. `browser` and `retries` also have a command-line flag, described below.
+Seven settings can also be set for a single run with an environment variable, which takes priority over the file: `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED` (`true` or `false`), `BROWSER`, `RETRIES`, `WORKERS` and `BASE_URL`. An empty variable is ignored. For most settings the order of priority is environment variable, then `testsettings.json`, then the default in `config/testSettings.js`; Playwright has no command-line flag for them. `browser`, `retries` and `workers` also have a command-line flag, described below.
 
 ### headless
 
@@ -207,6 +209,32 @@ $env:RETRIES='1'; npx playwright test  # PowerShell
 
 Traces are recorded on the first retry only (`trace: 'on-first-retry'`). With `retries` at `0` there is no retry, so a failed test has a screenshot but no trace; see [When a test fails](#when-a-test-fails).
 
+### workers
+
+`workers` is how many worker processes Playwright uses, which is how many spec files run at the same time. Tests inside one file always run in order (`fullyParallel` is `false`).
+
+Valid values are whole numbers from `1` to `8`. The default is `1`.
+
+**Keep it at `1`. The suite is not safe to run in parallel yet.** With a higher value the run starts with a one-line warning, and tests fail for reasons that have nothing to do with the app:
+
+- The app keeps a single in-memory data set for everyone, and `POST /api/test/reset` replaces all of it: candidates, jobs, applications, notes, users and uploaded CVs.
+- Every test calls that reset before it starts. With two workers, one worker's reset wipes the records another worker's test has just created.
+- The reset also puts the ID counters back, so two workers can each create a candidate and be given the same ID, and one test then reads the other's record.
+- Tests that only read still expect the exact seed data, so counts, sort order and pagination change when another worker adds a record.
+
+Saved logins are not affected: sessions are stored separately and survive a reset.
+
+When the suite can run in parallel, a good value depends on the machine. Each worker runs a browser, so start at about half the number of CPU cores and go no higher than the number of cores. Too many workers make every browser slower, and tests then fail on timeouts instead of running faster.
+
+The order of priority is:
+
+1. **The `--workers` command-line flag** (or `-j`), for example `npx playwright test --workers=2`.
+2. **The `WORKERS` environment variable.**
+3. **`testsettings.json`.**
+4. **The default**, `1`, in `config/testSettings.js`.
+
+Playwright never starts more workers than there are spec files to run, so a single file always reports `using 1 worker`.
+
 ### baseURL
 
 `baseURL` is the site the tests run against. Every page object, fixture, API helper and the global setup take the address from it; none contains an address of its own.
@@ -246,9 +274,9 @@ Set `"allowRemoteReset": true` only for a site whose data the tests are allowed 
 
 - If the file is missing, the defaults are used and one line says so.
 - If the file is not valid JSON, is not a JSON object, contains a setting that does not exist (such as a misspelt `"headles"`), or has an invalid value (such as `"slowMo": -1` or `"slowMo": "1000"`), the run stops with an error that names the file, the setting and the value.
-- If `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED`, `BROWSER`, `RETRIES` or `BASE_URL` holds an invalid value, the run stops with an error that names the environment variable.
+- If `SLOWMO`, `PAGE_ZOOM`, `MAXIMIZED`, `BROWSER`, `RETRIES`, `WORKERS` or `BASE_URL` holds an invalid value, the run stops with an error that names the environment variable.
 
-The API tests use no browser, so of these settings only `retries`, `baseURL` and `allowRemoteReset` affect them.
+The API tests use no browser, so of these settings only `retries`, `workers`, `baseURL` and `allowRemoteReset` affect them.
 
 To add a setting, add one line to the `SETTINGS` table in `config/testSettings.js` (and to `ENV_OVERRIDES` if it should have an environment variable), use it in `playwright.config.js` or `tests/fixtures/index.js`, and add a row to the table above.
 
@@ -297,7 +325,7 @@ Which browser projects run is set by `browser` in `testsettings.json` (see [brow
 
 ### Why tests run one at a time
 
-The app holds a single in-memory data set, and every test resets it. Two tests running at once against one server would wipe each other's data, so the config sets `workers: 1`. The suite still finishes in a few minutes.
+The app holds a single in-memory data set, and every test resets it. Two tests running at once against one server would wipe each other's data, so the `workers` setting defaults to 1 (see [workers](#workers)). The suite still finishes in a few minutes.
 
 ## Fixtures
 

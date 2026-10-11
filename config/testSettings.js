@@ -27,6 +27,7 @@ const SETTINGS = {
   maximized: { default: false, isValid: (value) => typeof value === 'boolean', expects: 'a boolean' },
   browser: { default: 'all', isValid: (value) => BROWSERS.includes(value), expects: `one of ${BROWSERS.join(', ')}` },
   retries: { default: 0, isValid: (value) => Number.isInteger(value) && value >= 0 && value <= 5, expects: 'a whole number from 0 to 5' },
+  workers: { default: 1, isValid: (value) => Number.isInteger(value) && value >= 1 && value <= 8, expects: 'a whole number from 1 to 8' },
   baseURL: {
     default: 'http://localhost:3000',
     isValid: isHttpURL,
@@ -48,6 +49,7 @@ const ENV_OVERRIDES = {
   maximized: { variable: 'MAXIMIZED', parse: parseBoolean },
   browser: { variable: 'BROWSER', parse: (text) => text.trim() },
   retries: { variable: 'RETRIES', parse: parseWholeNumber },
+  workers: { variable: 'WORKERS', parse: parseWholeNumber },
   baseURL: { variable: 'BASE_URL', parse: (text) => text.trim() }
 }
 
