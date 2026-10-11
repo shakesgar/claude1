@@ -64,7 +64,7 @@ $env:BASE_URL='http://localhost:4000'; npx playwright test  # PowerShell
 | `maximized` | boolean                  | `false` | `true` opens the Chromium window maximised, with the page filling it. Headed runs only.       |
 | `browser`  | one of `chromium`, `firefox`, `webkit`, `chrome`, `msedge`, `all` | `all` | Which browser the UI tests run in. `all` runs Chromium, Firefox and WebKit. |
 | `retries`  | whole number, 0 to 5      | `0`     | How many times a failed test is run again before it counts as failed.                         |
-| `workers`  | whole number, 1 to 8      | `1`     | How many spec files run at the same time. Leave at `1`: see [workers](#workers).               |
+| `workers`  | whole number, 1 to 8      | `1`     | How many spec files run at the same time. Above `1`, each worker gets its own copy of the app. |
 | `baseURL`  | full `http://` or `https://` URL | `http://localhost:3000` | The site the tests run against.                                     |
 | `allowRemoteReset` | boolean           | `false` | `true` lets the tests wipe the data of a site that is not on this machine.                    |
 
@@ -215,16 +215,20 @@ Traces are recorded on the first retry only (`trace: 'on-first-retry'`). With `r
 
 Valid values are whole numbers from `1` to `8`. The default is `1`.
 
-**Keep it at `1`. The suite is not safe to run in parallel yet.** With a higher value the run starts with a one-line warning, and tests fail for reasons that have nothing to do with the app:
+With `1`, every test uses the one app that Playwright starts at `baseURL`, exactly as before.
 
-- The app keeps a single in-memory data set for everyone, and `POST /api/test/reset` replaces all of it: candidates, jobs, applications, notes, users and uploaded CVs.
-- Every test calls that reset before it starts. With two workers, one worker's reset wipes the records another worker's test has just created.
-- The reset also puts the ID counters back, so two workers can each create a candidate and be given the same ID, and one test then reads the other's record.
-- Tests that only read still expect the exact seed data, so counts, sort order and pagination change when another worker adds a record.
+With `2` or more, **each worker gets its own copy of the app**. The fixtures start `node server.js` in test mode on a free port for each worker, sign in both roles on it, and point that worker's `baseURL` and saved sessions at it. The copies are stopped when the workers finish. No test or page object knows the difference.
 
-Saved logins are not affected: sessions are stored separately and survive a reset.
+This is needed because the app keeps a single in-memory data set and every test resets it. Sharing one app between workers fails in three ways: one worker's reset wipes records another test has just created, the reset ID counters hand two tests the same new ID, and list tests see records added by other workers. A trial of 4 workers on one shared app failed 47 of 509 tests this way.
 
-When the suite can run in parallel, a good value depends on the machine. Each worker runs a browser, so start at about half the number of CPU cores and go no higher than the number of cores. Too many workers make every browser slower, and tests then fail on timeouts instead of running faster.
+Limits:
+
+- **Local sites only.** Against a `baseURL` on another machine there is nothing to copy, so workers would share that site's data. The run prints a warning; use `1` there.
+- **Only spec files run in parallel**, so the gain is capped by the longest file. A single file always runs on 1 worker.
+- **More workers is not always faster.** Each worker runs a browser and an app. On the 8-core, 16 GB laptop this was developed on, the full suite took about 6 minutes with 1 worker and about 3 with 2, both fully passing. With 4 it took about 3 minutes but 2 to 5 tests failed each time on 5-second assertion timeouts.
+- **Those 4-worker failures were not caused by the tests or the app.** On the development laptop, 4-worker runs showed occasional system-wide stalls of 7 to 10 seconds that affected every process at once while the CPU was idle. Any test waiting on an assertion during a stall timed out. The tests and the app were checked and are not at fault. The cause on that machine was not confirmed; the suspects are security software and power settings.
+- **Recommended values:** `2` locally and `1` on CI, until a higher value has been checked on each machine with repeated runs that stay green. How far you can go depends on the machine's CPU cores and free memory; too many workers cause timeouts, not speed.
+- **CI uses the committed value.** Keep `1` there unless you have checked a higher value on the CI runner, which has fewer cores than most laptops.
 
 The order of priority is:
 
@@ -298,6 +302,7 @@ tests/
   support/
     env.js                  seeded users and saved-session paths
     api-client.js           creates test data through the REST API
+    worker-app.js           logs in each role; starts a private app per worker for parallel runs
   specs/
     smoke.spec.js           @smoke: login, list, create a candidate, logout
     auth.spec.js            invalid login, roles, session persistence
@@ -323,9 +328,9 @@ tests/
 
 Which browser projects run is set by `browser` in `testsettings.json` (see [browser](#browser)); by default it is the first three.
 
-### Why tests run one at a time
+### Why tests never share an app
 
-The app holds a single in-memory data set, and every test resets it. Two tests running at once against one server would wipe each other's data, so the `workers` setting defaults to 1 (see [workers](#workers)). The suite still finishes in a few minutes.
+The app holds a single in-memory data set, and every test resets it. Two tests running at once against one server would wipe each other's data. So the `workers` setting defaults to 1, and with more workers each one is given its own copy of the app (see [workers](#workers)).
 
 ## Fixtures
 
@@ -338,6 +343,7 @@ const { test, expect } = require('../fixtures')
 | Fixture                | What it gives you                                                              |
 |------------------------|--------------------------------------------------------------------------------|
 | `role` (option)        | Who the test is signed in as: `'recruiter'` (default), `'admin'` or `'anonymous'` |
+| `workerApp` (per worker) | With 2 or more workers, this worker's own copy of the app; otherwise `null`. Tests do not use it directly |
 | `resetData` (automatic) | Calls `POST /api/test/reset` before every test; you never request it           |
 | `page`, `request`      | Playwright's own fixtures, already signed in as the current role               |
 | `api`                  | `ApiClient` for creating data as the current role                              |
@@ -356,7 +362,7 @@ test.describe('as an admin', () => {
 })
 ```
 
-Sessions come from `storageState` files that the global setup creates by logging in through the API, so tests do not repeat the login form.
+Sessions come from `storageState` files created by logging in through the API, so tests do not repeat the login form. The global setup creates them for the shared app; with 2 or more workers, each worker creates its own for its copy of the app, because a session only exists on the server it was made on.
 
 **Logging out ends the saved session on the server.** A test that logs out must use `role: 'anonymous'` and log in through the UI first, as the smoke logout test does. Otherwise every later test would start signed out.
 

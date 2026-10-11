@@ -60,8 +60,9 @@ const isCI = !!process.env.CI
 // variable) does CI fall back to 2, so one intermittent failure does not fail a build by default.
 const retries = !provided.has('retries') && isCI ? 2 : settings.retries
 
-// More than one worker is allowed but not yet safe: see "workers" in TESTING.md
-// The --workers (or -j) flag overrides the setting, so the warning has to look at it too
+// With more than one worker the fixtures give each worker its own copy of the app (see "workers" in
+// TESTING.md). That is only possible on this machine, so a parallel run against another site gets a warning.
+// The --workers (or -j) flag overrides the setting, so the warning has to look at it too.
 function workersFromFlag() {
   const index = process.argv.findIndex((arg) => /^(--workers|-j)(=|$)/.test(arg))
   if (index === -1) return undefined
@@ -69,8 +70,8 @@ function workersFromFlag() {
   return arg.includes('=') ? arg.split('=')[1] : process.argv[index + 1]
 }
 const effectiveWorkers = workersFromFlag() ?? String(settings.workers)
-if (effectiveWorkers !== '1' && !isWorker) {
-  console.warn('testsettings: this suite has not been verified for parallel runs; with more than 1 worker, tests can wipe the data of other tests')
+if (effectiveWorkers !== '1' && !startApp && !isWorker) {
+  console.warn(`testsettings: more than 1 worker against ${baseURL} is not safe; the workers share that site's data and will wipe each other's records`)
 }
 
 // API specs need no browser, so they run once in their own project

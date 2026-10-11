@@ -1,5 +1,5 @@
 const { request } = require('@playwright/test')
-const { STORAGE_STATE, USERS } = require('./support/env')
+const { saveLogins } = require('./support/worker-app')
 const { loadTestSettings, assertResetAllowed } = require('../config/testSettings')
 
 // Runs once before all tests: checks the app is in test mode, then logs in as each
@@ -27,12 +27,5 @@ module.exports = async config => {
     )
   }
 
-  for (const role of ['recruiter', 'admin']) {
-    const context = await request.newContext({ baseURL })
-    const { email, password } = USERS[role]
-    const login = await context.post('/api/auth/login', { data: { email, password } })
-    if (!login.ok()) throw new Error(`Could not log in as ${role}: ${login.status()} ${await login.text()}`)
-    await context.storageState({ path: STORAGE_STATE[role] })
-    await context.dispose()
-  }
+  await saveLogins(baseURL)
 }

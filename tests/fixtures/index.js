@@ -8,11 +8,34 @@ const { CandidateProfilePage } = require('../pages/candidate-profile-page')
 const { JobsPage } = require('../pages/jobs-page')
 const { PipelinePage } = require('../pages/pipeline-page')
 const { NavBar } = require('../components/nav-bar')
-const { loadTestSettings, assertResetAllowed } = require('../../config/testSettings')
+const { startWorkerApp } = require('../support/worker-app')
+const { loadTestSettings, assertResetAllowed, isLocalURL } = require('../../config/testSettings')
 
 const settings = loadTestSettings()
 
 const test = base.extend({
+  // With more than one worker, each worker gets its own copy of the app with its own data, so tests
+  // running at the same time cannot wipe or see each other's records. With one worker, or a site on
+  // another machine, this is null and every test uses the shared site at the baseURL setting.
+  workerApp: [async ({}, use, workerInfo) => {
+    if (workerInfo.config.workers === 1 || !isLocalURL(settings.baseURL)) {
+      await use(null)
+      return
+    }
+    const app = await startWorkerApp(settings.baseURL, workerInfo.parallelIndex)
+    await use(app)
+    app.stop()
+  }, { scope: 'worker' }],
+
+  baseURL: async ({ workerApp, baseURL }, use) => {
+    await use(workerApp ? workerApp.baseURL : baseURL)
+  },
+
+  // Saved sessions for this worker's site, by role
+  sessions: async ({ workerApp }, use) => {
+    await use(workerApp ? workerApp.storageState : STORAGE_STATE)
+  },
+
   // Applies the pageZoom setting to every page and popup, on every navigation.
   // Nothing is injected at 100, so default runs are untouched.
   context: async ({ context }, use) => {
@@ -41,8 +64,8 @@ const test = base.extend({
   role: ['recruiter', { option: true }],
 
   // Applies the saved session for the role to both `page` and `request`
-  storageState: async ({ role }, use) => {
-    await use(role === 'anonymous' ? NO_SESSION : STORAGE_STATE[role])
+  storageState: async ({ role, sessions }, use) => {
+    await use(role === 'anonymous' ? NO_SESSION : sessions[role])
   },
 
   // Restores the seed data before every test, so tests never depend on each other
@@ -54,8 +77,8 @@ const test = base.extend({
   }, { auto: true }],
 
   // Extra API sessions for tests that need a second role alongside the main one
-  adminRequest: async ({ playwright, baseURL }, use) => {
-    const context = await playwright.request.newContext({ baseURL, storageState: STORAGE_STATE.admin })
+  adminRequest: async ({ playwright, baseURL, sessions }, use) => {
+    const context = await playwright.request.newContext({ baseURL, storageState: sessions.admin })
     await use(context)
     await context.dispose()
   },
