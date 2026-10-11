@@ -32,18 +32,25 @@ jobs:
         env:
           RETRIES: 2
 
+      # Reads test-results/results.json (written by the json reporter) and adds totals
+      # and a table of failed and flaky tests to the run's summary page
+      - name: Write job summary
+        if: ${{ !cancelled() }}
+        run: node scripts/ci-summary.js
+
       - name: Upload HTML report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-html-report
           path: playwright-report/
           retention-days: 14
 
-      - name: Upload traces and screenshots
-        if: ${{ failure() }}
+      # Traces, failure screenshots and the raw JSON results
+      - name: Upload test results
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: playwright-test-results
           path: test-results/
-          retention-days: 7
+          retention-days: 14

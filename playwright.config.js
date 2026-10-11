@@ -88,8 +88,10 @@ module.exports = defineConfig({
 
   forbidOnly: isCI,
   retries,
+  // On CI: list for the log, github for annotations on the run, html for the downloadable report,
+  // and json for scripts/ci-summary.js, which writes the job summary.
   reporter: isCI
-    ? [['html', { open: 'never' }], ['github']]
+    ? [['list'], ['github'], ['html', { open: 'never' }], ['json', { outputFile: 'test-results/results.json' }]]
     : [['html', { open: 'never' }], ['list']],
 
   use: {

@@ -205,7 +205,7 @@ $env:RETRIES='1'; npx playwright test  # PowerShell
 
 - **Console:** the summary at the end of a run has its own count, for example `1 flaky`, listed with the test's name and the error from the failed attempt. During the run, the list shows the failed attempt and then the same test again marked `(retry #1)`.
 - **HTML report:** `npm run report`, then use the **Flaky** filter at the top. Opening a flaky test shows one tab per attempt, with the error and screenshot from the failed one and the trace from the retry.
-- **GitHub Actions:** the run summary has a "Playwright Run Summary" notice that lists flaky tests, and the `playwright-report` artifact holds the HTML report. A run with only flaky tests is green, so look at the notice, not just the tick.
+- **GitHub Actions:** the job summary on the run's page counts flaky tests and lists each one in its table, and the `playwright-html-report` artifact holds the HTML report (see [Continuous integration](#continuous-integration)). A run with only flaky tests is green, so look at the summary, not just the tick.
 
 Traces are recorded on the first retry only (`trace: 'on-first-retry'`). With `retries` at `0` there is no retry, so a failed test has a screenshot but no trace; see [When a test fails](#when-a-test-fails).
 
@@ -471,4 +471,55 @@ API-only tests go in `tests/specs/api/` with a name ending `.api.spec.js`; they 
 
 ## Continuous integration
 
-`.github/workflows/playwright.yml` runs the full suite on every push and pull request to `main` or `master`. The workflow sets `RETRIES: 2`, so failed tests are retried twice (see [retries](#retries)). In CI the config also forbids `test.only` and always starts a fresh server. The HTML report is uploaded as the `playwright-report` artifact; traces and screenshots are uploaded as `test-results` when a run fails.
+`.github/workflows/playwright.yml` runs the full suite on every push and pull request to `main` or `master`. The workflow sets `RETRIES: 2`, so failed tests are retried twice (see [retries](#retries)). In CI the config also forbids `test.only` and always starts a fresh server.
+
+### Reporters
+
+When the `CI` environment variable is set, the config uses four reporters. Local runs keep `list` and `html` only.
+
+| Reporter | What it produces | Where to find it |
+|----------|------------------|------------------|
+| `list`   | One line per test as it runs, then the errors and totals | The log of the "Run Playwright tests" step |
+| `github` | Annotations for failed tests, pointing at the failing line | The Annotations box on the run's page, and inline on a pull request's changed files |
+| `html`   | The full interactive report | The `playwright-html-report` artifact |
+| `json`   | Machine-readable results in `test-results/results.json` | Read by `scripts/ci-summary.js`; also inside the `playwright-test-results` artifact |
+
+### Reading the job summary
+
+Open the run from the repository's **Actions** tab. The summary page shows a **Playwright results** section, written by `scripts/ci-summary.js` from the JSON results:
+
+- The heading says at a glance whether everything passed, some tests failed, or the run passed with flaky tests.
+- The first table has the totals: passed, failed, flaky, skipped, and how long the run took.
+- If anything failed or was flaky, a second table lists each test with its file and line, the project (browser) it ran in, how many times it was retried, and the first line of its error. The same test can appear once per browser.
+- **Failed** means the test failed on every attempt. **Flaky** means it failed and then passed on a retry; the run stays green, but the test still needs investigating.
+- If the section says no results were found, the run stopped before any test started (for example an invalid `testsettings.json`); the cause is in the log of the "Run Playwright tests" step.
+
+The script uses no third-party action. To preview the summary locally after a CI-style run:
+
+```
+CI=true npx playwright test
+node scripts/ci-summary.js       # prints the markdown when GITHUB_STEP_SUMMARY is not set
+```
+
+### Artifacts
+
+Both artifacts are uploaded on every run that is not cancelled, pass or fail, and kept for 14 days. They are in the **Artifacts** section at the bottom of the run's summary page.
+
+| Artifact | Contents |
+|----------|----------|
+| `playwright-html-report` | The HTML report. Download, unzip and open `index.html`. |
+| `playwright-test-results` | A folder per failed test with its screenshot and, when it was retried, its trace; plus `results.json`. |
+
+Traces in the HTML report only load when the report is served over HTTP, not opened as a file. After unzipping, run this from the project folder and use the page it opens:
+
+```
+npx playwright show-report path/to/unzipped/playwright-html-report
+```
+
+### Opening a trace
+
+A trace is a recording of one test attempt: each action, the page before and after it, the console and the network calls. One is recorded when a test is retried, which on CI means any test that failed its first attempt.
+
+- **From the HTML report:** open the failed or flaky test, choose the **Retry #1** tab and click the trace.
+- **From the results artifact:** unzip `playwright-test-results`, find the test's folder ending `-retry1` and run `npx playwright show-trace path/to/trace.zip`.
+- **Without installing anything:** drop the `trace.zip` onto <https://trace.playwright.dev>. It is processed in your browser and not uploaded.
